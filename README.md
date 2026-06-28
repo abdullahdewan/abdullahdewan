@@ -13,7 +13,7 @@
  ::::::::::::::::::::
  '::::::::::::::::::'
    '::::::::::::::'
-      '::::::::'       [⚡ CONNECTED TO NODE: https://abdullahdewan.pages.dev]
+      '::::::::'       [⚡ CONNECTED TO NODE: https://abdullahdewan.com]
         '::::'
 ```
 
@@ -79,5 +79,5 @@ $ dewan --show-skills
 
 If you want to spin up a project, sync databases, or discuss engineering pipelines, send a transmission packet:
 
-- 🌐 **Live Telemetry Interface:** [abdullahdewan.pages.dev](https://abdullahdewan.pages.dev) (Go to `TRANSMIT.cfg` tab)
-- 📧 **Secure Mailer:** `dewanmohammadabdullah@gmail.com` (Or through the contact console on the portfolio site)
+- 🌐 **Live Telemetry Interface:** [abdullahdewan.com](https://abdullahdewan.com) (Go to `TRANSMIT.cfg` tab)
+- 📧 **Secure Mailer:** `hello@abdullahdewan.com` (Or through the contact console on the portfolio site)

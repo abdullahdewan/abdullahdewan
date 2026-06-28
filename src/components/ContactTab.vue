@@ -85,7 +85,7 @@ const sendTransmission = async (e: Event) => {
               v-model="senderEmail"
               required
               type="email"
-              placeholder="e.g. ADMIN@DOMAIN.COM"
+              placeholder="e.g. hello@abdullahdewan.com"
               class="w-full bg-background border border-foreground px-3 py-2 text-xs rounded-none focus:outline-none focus:ring-1 focus:ring-foreground"
             />
           </div>
