@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button } from '@/components/ui/button';
+import { Button } from '~/components/ui/button';
 import { Send, CheckCircle2 } from 'lucide-vue-next';
 
 const senderName = ref('');
 const senderEmail = ref('');
 const message = ref('');
+const turnstileToken = ref('');
 
 const isSubmitting = ref(false);
 const consoleLogs = ref<string[]>([]);
@@ -22,29 +23,48 @@ const logOutput = (text: string, delay: number) => {
 
 const sendTransmission = async (e: Event) => {
   e.preventDefault();
-  if (!senderName.value || !senderEmail.value || !message.value) return;
+  if (!senderName.value || !senderEmail.value || !message.value || !turnstileToken.value) return;
 
   isSubmitting.value = true;
   consoleLogs.value = [];
   isSuccess.value = false;
 
   await logOutput('INITIATING TRANSMISSION PROTOCOL...', 200);
-  await logOutput('ESTABLISHING SECURE SSH TUNNEL ON PORT 22...', 400);
-  await logOutput('DNS LOOKUP FOR NODE: DEWAN_BD.LOCAL...', 300);
-  await logOutput('HANDSHAKE COMPLETED. PACKING PAYLOAD DATA...', 450);
-  await logOutput(`SENDER_ID: ${senderName.value.toUpperCase()} <${senderEmail.value}>`, 200);
-  await logOutput('ENCRYPTING PACKET USING AES-256-GCM...', 500);
-  await logOutput('SENDING COMPRESSED DATA STREAM...', 600);
-  await logOutput('STATUS 202: TRANSMISSION BUFFERED SUCCESSFUL!', 400);
-  await logOutput('LOGGED TERMINATION HANDSHAKE.', 200);
+  await logOutput('ESTABLISHING SECURE TUNNEL TO API ENDPOINT...', 400);
 
-  isSubmitting.value = false;
-  isSuccess.value = true;
+  try {
+    const res = await $fetch('/api/contact', {
+      method: 'POST',
+      body: {
+        senderName: senderName.value,
+        senderEmail: senderEmail.value,
+        message: message.value,
+        'cf-turnstile-response': turnstileToken.value,
+      },
+    });
 
-  // Reset form
-  senderName.value = '';
-  senderEmail.value = '';
-  message.value = '';
+    if ((res as any).success) {
+      await logOutput('HANDSHAKE COMPLETED. PAYLOAD DATA DELIVERED...', 450);
+      await logOutput(`SENDER_ID: ${senderName.value.toUpperCase()} <${senderEmail.value}>`, 200);
+      await logOutput('STATUS 200: TRANSMISSION SUCCESSFUL!', 400);
+      await logOutput('LOGGED TERMINATION HANDSHAKE.', 200);
+      isSuccess.value = true;
+    } else {
+      await logOutput('STATUS 500: TRANSMISSION FAILED!', 400);
+    }
+  } catch (err) {
+    console.error(err);
+    await logOutput('STATUS 500: TRANSMISSION FAILED!', 400);
+  } finally {
+    isSubmitting.value = false;
+  }
+
+  if (isSuccess.value) {
+    senderName.value = '';
+    senderEmail.value = '';
+    message.value = '';
+    turnstileToken.value = '';
+  }
 };
 </script>
 
@@ -105,9 +125,14 @@ const sendTransmission = async (e: Event) => {
           ></textarea>
         </div>
 
+        <div>
+          <NuxtTurnstile v-model="turnstileToken" />
+        </div>
+
         <div class="pt-2">
           <Button
             type="submit"
+            :disabled="!turnstileToken"
             class="w-full rounded-none border-2 border-foreground hover:bg-muted text-xs uppercase font-bold tracking-wider py-5 gap-2 cursor-pointer"
           >
             <Send class="size-4" />

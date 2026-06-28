@@ -7,9 +7,9 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from '~/components/ui/card';
+import { Badge } from '~/components/ui/badge';
+import { Button } from '~/components/ui/button';
 import { ExternalLink, Star, GitFork, AlertCircle, Search } from 'lucide-vue-next';
 
 interface Project {

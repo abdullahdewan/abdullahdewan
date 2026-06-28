@@ -1,15 +1,29 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useTheme } from '@/composables/useTheme';
+import { useTheme } from '~/composables/useTheme';
+
+import { useHead } from '@unhead/vue';
+
+useHead({
+  title: 'ABDULLAH DEWAN // FULL-STACK ENGINEER',
+  meta: [
+    { name: 'description', content: 'Abdullah Dewan - Full-Stack Engineer and Backend Systems Architect.' },
+    { name: 'theme-color', content: '#000000' }
+  ],
+  link: [
+    { rel: 'icon', type: 'image/svg+xml', href: '/vite.svg' }
+  ]
+});
+
 import { Terminal as TerminalIcon, Sun, Moon, Cpu, Coffee, ShieldCheck } from 'lucide-vue-next';
 
 // Import components
-import AboutTab from '@/components/AboutTab.vue';
-import SkillsTab from '@/components/SkillsTab.vue';
-import ProjectsTab from '@/components/ProjectsTab.vue';
-import ExperienceTab from '@/components/ExperienceTab.vue';
-import ContactTab from '@/components/ContactTab.vue';
-import TerminalPrompt from '@/components/TerminalPrompt.vue';
+import AboutTab from '~/components/AboutTab.vue';
+import SkillsTab from '~/components/SkillsTab.vue';
+import ProjectsTab from '~/components/ProjectsTab.vue';
+import ExperienceTab from '~/components/ExperienceTab.vue';
+import ContactTab from '~/components/ContactTab.vue';
+import TerminalPrompt from '~/components/TerminalPrompt.vue';
 
 // Theme setup
 const { colorMode, toggle } = useTheme();
