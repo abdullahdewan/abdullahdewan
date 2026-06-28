@@ -75,16 +75,25 @@ const loading = ref(true);
 const fetchError = ref(false);
 const searchQuery = ref('');
 
+interface GitHubRepo {
+  name: string;
+  description: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  html_url: string;
+  language: string | null;
+}
+
 const loadProjects = async () => {
   try {
     const res = await fetch(
-      'https://api.github.com/users/abdullahdewan/repos?sort=updated&per_page=20'
+      'https://api.github.com/users/abdullahdewan/repos?sort=updated&per_page=6'
     );
     if (!res.ok) throw new Error('API limit or network error');
-    const githubData = await res.json();
+    const githubData = (await res.json()) as GitHubRepo[];
 
     // Map GitHub API data to match existing schema
-    const apiRepos = githubData.map((repo: any) => {
+    const apiRepos = githubData.map((repo): Project => {
       // Find matches in featured array to preserve tech stack tags
       const match = featuredProjects.value.find(
         (p) => p.name.toLowerCase() === repo.name.toLowerCase()
@@ -97,14 +106,14 @@ const loadProjects = async () => {
         url: repo.html_url,
         language: repo.language || match?.language || 'Unknown',
         isFeatured: match?.isFeatured || false,
-        techStack: match?.techStack || [repo.language].filter(Boolean),
+        techStack: match?.techStack || [repo.language].filter((l): l is string => !!l),
       };
     });
 
     // Separate featured and other repos, prioritizing featured ones
-    const featuredMapped = apiRepos.filter((r: any) => r.isFeatured);
+    const featuredMapped = apiRepos.filter((r) => r.isFeatured);
     const otherMapped = apiRepos.filter(
-      (r: any) => !r.isFeatured && r.name !== 'wordpress' && r.name !== 'abdullahdewan'
+      (r) => !r.isFeatured && r.name !== 'wordpress' && r.name !== 'abdullahdewan'
     );
 
     // Merge keeping featured first
@@ -182,8 +191,8 @@ onMounted(() => {
         />
         <button
           v-if="searchQuery"
-          @click="searchQuery = ''"
           class="cursor-pointer font-bold text-foreground hover:text-red-500 select-none text-xs px-1"
+          @click="searchQuery = ''"
         >
           ×
         </button>
@@ -211,7 +220,7 @@ onMounted(() => {
           <CardHeader class="pb-3">
             <div class="flex items-start justify-between gap-2">
               <CardTitle
-                class="text-sm font-bold uppercase tracking-tight text-foreground truncate max-w-[200px]"
+                class="text-sm font-bold uppercase tracking-tight text-foreground truncate max-w-50"
               >
                 {{ project.name }}
               </CardTitle>
@@ -260,7 +269,7 @@ onMounted(() => {
               </span>
             </div>
             <Button
-              asChild
+              as-child
               variant="outline"
               class="h-7 rounded-none border-foreground text-[10px] uppercase font-bold tracking-tight px-3 py-1 gap-1"
             >

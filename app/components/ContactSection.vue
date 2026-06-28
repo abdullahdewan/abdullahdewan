@@ -43,7 +43,7 @@ const sendTransmission = async (e: Event) => {
       },
     });
 
-    if ((res as any).success) {
+    if (res.success) {
       await logOutput('HANDSHAKE COMPLETED. PAYLOAD DATA DELIVERED...', 450);
       await logOutput(`SENDER_ID: ${senderName.value.toUpperCase()} <${senderEmail.value}>`, 200);
       await logOutput('STATUS 200: TRANSMISSION SUCCESSFUL!', 400);
@@ -79,8 +79,8 @@ const sendTransmission = async (e: Event) => {
     <div class="pt-2">
       <form
         v-if="!isSuccess && !isSubmitting"
-        @submit="sendTransmission"
         class="space-y-4 font-mono text-sm"
+        @submit="sendTransmission"
       >
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="space-y-1.5">
@@ -144,7 +144,7 @@ const sendTransmission = async (e: Event) => {
       <!-- Connection console logs terminal view -->
       <div
         v-if="isSubmitting || isSuccess"
-        class="border border-foreground bg-black text-green-400 p-4 font-mono text-xs space-y-1.5 min-h-[220px] select-none terminal-screen"
+        class="border border-foreground bg-black text-green-400 p-4 font-mono text-xs space-y-1.5 min-h-55 select-none terminal-screen"
       >
         <div v-for="(log, idx) in consoleLogs" :key="idx" class="flex gap-2">
           <span class="text-green-500 font-bold">$</span>
@@ -170,9 +170,9 @@ const sendTransmission = async (e: Event) => {
             Transmission buffered on operator's side. Connection closed.
           </p>
           <Button
-            @click="isSuccess = false"
             variant="outline"
             class="mt-3 h-7 text-[9px] rounded-none border-green-400 text-green-400 bg-black hover:bg-green-400/20 px-3 uppercase font-bold"
+            @click="isSuccess = false"
           >
             SEND_ANOTHER
           </Button>

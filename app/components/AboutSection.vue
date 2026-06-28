@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '~/components/ui/card';
-</script>
-
 <template>
   <div class="space-y-6">
     <div class="border-b-2 border-foreground pb-4">

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '~/components/ui/card';
 import { Badge } from '~/components/ui/badge';
 
 interface Skill {

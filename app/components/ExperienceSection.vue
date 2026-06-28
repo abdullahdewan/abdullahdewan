@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '~/components/ui/card';
-import { Terminal, Shield, Cpu, Activity, Server, Database } from 'lucide-vue-next';
+import type { Component } from 'vue';
+import { Cpu, Server, Database } from 'lucide-vue-next';
 
 interface Event {
   year: string;
   title: string;
   subtitle: string;
-  icon: any;
+  icon: Component;
   description: string[];
 }
 

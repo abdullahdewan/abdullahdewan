@@ -222,8 +222,8 @@ onMounted(() => {
 
     <!-- Terminal Command Input Bar -->
     <form
-      @submit="handleCommand"
       class="border-t border-foreground p-3 flex items-center gap-2 bg-black"
+      @submit="handleCommand"
     >
       <span class="text-green-500 font-bold select-none">$</span>
       <input

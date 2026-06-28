@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useTheme } from '~/composables/useTheme';
 
 import { useHead } from '@unhead/vue';
 
-useHead({
-  title: 'ABDULLAH DEWAN // FULL-STACK ENGINEER',
-  meta: [
-    { name: 'description', content: 'Abdullah Dewan - Full-Stack Engineer and Backend Systems Architect.' },
-    { name: 'theme-color', content: '#000000' }
-  ],
-  link: [
-    { rel: 'icon', type: 'image/svg+xml', href: '/vite.svg' }
-  ]
-});
-
 import { Terminal as TerminalIcon, Sun, Moon, Cpu, Coffee, ShieldCheck } from 'lucide-vue-next';
 
 // Import components
-import AboutTab from '~/components/AboutTab.vue';
-import SkillsTab from '~/components/SkillsTab.vue';
-import ProjectsTab from '~/components/ProjectsTab.vue';
-import ExperienceTab from '~/components/ExperienceTab.vue';
-import ContactTab from '~/components/ContactTab.vue';
+import AboutSection from '~/components/AboutSection.vue';
+import SkillsSection from '~/components/SkillsSection.vue';
+import ProjectsSection from '~/components/ProjectsSection.vue';
+import ExperienceSection from '~/components/ExperienceSection.vue';
+import ContactSection from '~/components/ContactSection.vue';
 import TerminalPrompt from '~/components/TerminalPrompt.vue';
+
+useHead({
+  title: 'ABDULLAH DEWAN // FULL-STACK ENGINEER',
+  meta: [
+    {
+      name: 'description',
+      content: 'Abdullah Dewan - Full-Stack Engineer and Backend Systems Architect.',
+    },
+    { name: 'theme-color', content: '#000000' },
+  ],
+  link: [{ rel: 'icon', type: 'image/ico', href: '/favicon.ico' }],
+});
 
 // Theme setup
 const { colorMode, toggle } = useTheme();
@@ -48,12 +49,12 @@ const updateClock = () => {
   let tz: string;
   try {
     tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-  } catch (e) {
+  } catch {
     try {
       const parts = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(d);
       const tzPart = parts.find((p) => p.type === 'timeZoneName');
       tz = tzPart ? tzPart.value : '';
-    } catch (e2) {
+    } catch {
       const offset = -d.getTimezoneOffset();
       const sign = offset >= 0 ? '+' : '-';
       const offsetHrs = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0');
@@ -64,29 +65,58 @@ const updateClock = () => {
   timeString.value = `${timePart} ${tz}`.toUpperCase();
 };
 
-// Active Tab navigation state
-const activeTab = ref('about');
+// Active section scrollspy state
+const activeSection = ref('about');
 
-const tabs = [
-  { id: 'about', label: 'ABOUT.md', component: AboutTab },
-  { id: 'skills', label: 'SKILLS.exe', component: SkillsTab },
-  { id: 'projects', label: 'PROJECTS.sh', component: ProjectsTab },
-  { id: 'experience', label: 'HISTORY.log', component: ExperienceTab },
-  { id: 'contact', label: 'TRANSMIT.cfg', component: ContactTab },
+const sections = [
+  { id: 'about', label: 'ABOUT.md', component: AboutSection },
+  { id: 'skills', label: 'SKILLS.exe', component: SkillsSection },
+  { id: 'projects', label: 'PROJECTS.sh', component: ProjectsSection },
+  { id: 'experience', label: 'HISTORY.log', component: ExperienceSection },
+  { id: 'contact', label: 'TRANSMIT.cfg', component: ContactSection },
 ];
 
-const activeTabComponent = computed(() => {
-  const tab = tabs.find((t) => t.id === activeTab.value);
-  return tab ? tab.component : AboutTab;
-});
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(`section-${id}`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
+let observer: IntersectionObserver | null = null;
 
 onMounted(() => {
   updateClock();
   timer = setInterval(updateClock, 1000);
+
+  // Setup scrollspy observer
+  if (typeof IntersectionObserver !== 'undefined') {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Trigger when section is around top-middle
+      threshold: 0,
+    };
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeSection.value = entry.target.id.replace('section-', '');
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((sec) => {
+      const el = document.getElementById(`section-${sec.id}`);
+      if (el) observer?.observe(el);
+    });
+  }
 });
 
 onUnmounted(() => {
   clearInterval(timer);
+  if (observer) {
+    observer.disconnect();
+  }
 });
 </script>
 
@@ -192,7 +222,7 @@ onUnmounted(() => {
       <!-- Main Columns Grid Layout -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         <!-- Left Panel: Interactive Console CLI -->
-        <div class="lg:col-span-1 space-y-4">
+        <div class="lg:col-span-1 lg:sticky lg:top-24 space-y-4">
           <div
             class="text-[10px] text-muted-foreground uppercase font-bold tracking-wider select-none"
           >
@@ -201,39 +231,63 @@ onUnmounted(() => {
           <TerminalPrompt />
         </div>
 
-        <!-- Right Panel: Visual GUI Tabs component -->
-        <div class="lg:col-span-2 space-y-4">
+        <!-- Right Panel: Visual GUI Sections -->
+        <div class="lg:col-span-2 space-y-6">
           <div class="flex items-center justify-between select-none">
             <div class="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">
               // TELEMETRY_VISUAL_INTERFACE
             </div>
-            <div class="text-[9px] text-muted-foreground uppercase font-mono">GUI_MODE: ACTIVE</div>
+            <div class="text-[9px] text-muted-foreground uppercase font-mono">
+              GUI_MODE: STACKED
+            </div>
           </div>
 
-          <!-- Unified Card Container with Tab Header -->
-          <div class="border-2 border-foreground bg-card text-card-foreground flex flex-col">
-            <!-- Tab Bar headers -->
-            <div class="flex flex-wrap border-b-2 border-foreground bg-background p-1 select-none">
-              <button
-                v-for="tab in tabs"
-                :key="tab.id"
-                @click="activeTab = tab.id"
-                class="px-3 py-2 text-xs uppercase font-bold transition-all border border-transparent cursor-pointer"
-                :class="
-                  activeTab === tab.id
-                    ? 'bg-foreground text-background font-black'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                "
-              >
-                [{{ tab.label }}]
-              </button>
-            </div>
+          <!-- Sticky Navigation Bar (Quick Jump) -->
+          <div
+            class="sticky top-16 z-40 bg-background border-b-2 border-foreground py-2 flex flex-wrap gap-2 items-center select-none"
+          >
+            <span class="text-[10px] text-muted-foreground uppercase font-bold mr-2"
+              >// JUMP_TO:</span
+            >
+            <button
+              v-for="section in sections"
+              :key="section.id"
+              class="px-3 py-1.5 text-[10px] uppercase font-bold transition-all border cursor-pointer"
+              :class="
+                activeSection === section.id
+                  ? 'bg-foreground text-background font-black border-foreground'
+                  : 'text-muted-foreground border-foreground/20 hover:text-foreground hover:bg-muted'
+              "
+              @click="scrollToSection(section.id)"
+            >
+              [{{ section.label }}]
+            </button>
+          </div>
 
-            <!-- Active tab container -->
-            <div class="p-6">
-              <keep-alive>
-                <component :is="activeTabComponent" />
-              </keep-alive>
+          <!-- Sections Stack -->
+          <div class="space-y-8">
+            <div
+              v-for="section in sections"
+              :id="`section-${section.id}`"
+              :key="section.id"
+              class="border-2 border-foreground bg-card text-card-foreground flex flex-col scroll-mt-32"
+            >
+              <!-- Section Header -->
+              <div
+                class="flex justify-between items-center border-b-2 border-foreground bg-background px-4 py-2 select-none"
+              >
+                <span class="text-xs uppercase font-black text-foreground">
+                  [{{ section.label }}]
+                </span>
+                <span class="text-[9px] text-muted-foreground uppercase font-mono">
+                  SYS_NODE // {{ section.id }}
+                </span>
+              </div>
+
+              <!-- Section Content -->
+              <div class="p-6">
+                <component :is="section.component" />
+              </div>
             </div>
           </div>
         </div>

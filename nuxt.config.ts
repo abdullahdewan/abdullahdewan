@@ -1,10 +1,9 @@
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
-  srcDir: 'src/',
-  css: ['~/style.css'],
+  css: ['./app/assets/css/style.css'],
 
-  modules: ['@nuxtjs/turnstile'],
+  modules: ['@nuxt/eslint', '@nuxtjs/turnstile'],
 
   turnstile: {
     siteKey: process.env.TURNSTILE_SITE_KEY,
