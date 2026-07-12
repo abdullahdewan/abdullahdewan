@@ -1,0 +1,43 @@
+# Abdullah Dewan
+
+Full-Stack Engineer and Backend Systems Architect portfolio. Demonstrates production-grade, highly interactive web applications built with Vue 3, Nuxt 4, Tailwind CSS v4, and modern systems telemetry.
+
+## Contact Information
+- **Email**: hello@abdullahdewan.com
+- **GitHub**: [github.com/abdullahdewan](https://github.com/abdullahdewan)
+
+## Core Technical Stack
+- **Languages**: JavaScript (ES6+), TypeScript, PHP, Python, SQL, HTML5, CSS3
+- **Frameworks**: Nuxt 4, Vue 3, Pinia, Express, Socket.IO, Ren'Py Scripts Parser
+- **Databases**: MySQL, PostgreSQL, MongoDB
+- **Tools**: Docker, Git, Tailwind CSS v4, Shadcn Vue
+
+## Active Projects
+- **traininfo**
+  - **Description**: Third-party Bangladesh Railway Time Table and tracking platform. Clean schedules, live telemetry, and localization.
+  - **Tech Stack**: Nuxt 3, Vue 3, Tailwind v4, Pinia, Shadcn Vue
+  - **Repository**: [github.com/abdullahdewan/traininfo](https://github.com/abdullahdewan/traininfo)
+
+- **tictactoe**
+  - **Description**: Real-time multiplayer Tic-Tac-Toe game supporting dynamic rooms, automatic win/draw detection, and containerized deployments.
+  - **Tech Stack**: Vue 3, Node.js, Express, Socket.IO, MongoDB, Docker
+  - **Repository**: [github.com/abdullahdewan/tictactoe](https://github.com/abdullahdewan/tictactoe)
+
+- **renpy-to-md**
+  - **Description**: Production-ready Python tool to parse complex Ren'Py scripts (.rpy) and convert them to clean Markdown files.
+  - **Tech Stack**: Python 3, Regex Parser, Markdown generator
+  - **Repository**: [github.com/abdullahdewan/renpy-to-md](https://github.com/abdullahdewan/renpy-to-md)
+
+- **FreeDownloader**
+  - **Description**: Client-side downloader tool optimized for speed and simplicity. Supports multiple streams and direct folder save configurations.
+  - **Tech Stack**: HTML5, Vanilla CSS, JavaScript ES6
+  - **Repository**: [github.com/abdullahdewan/FreeDownloader](https://github.com/abdullahdewan/FreeDownloader)
+
+## System Features & Telemetry
+- **Global Edge Telemetry**: Multi-tab HUD interface querying geographic weather data, Binance market prices (BTC, ETH, SOL), and remote gateway latencies.
+- **Secure Encrypted Messaging**: Built-in messaging form utilizing window.crypto SubtleAPI for in-browser client-side AES-256-GCM cipher encryption.
+- **Operator Command Line**: Interactive terminal shell emulator supporting custom filesystem prompts and real-time execution.
+
+## Navigation Links
+- [Portfolio Homepage](https://abdullahdewan.com)
+- [Resume Readout](https://abdullahdewan.com/resume)

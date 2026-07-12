@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue';
 import { Terminal } from 'lucide-vue-next';
 
+const { playClick, playTick, playSuccessLog, playErrorLog } = useAudio();
+
 const logs = ref<{ text: string; type: 'input' | 'output' | 'error' | 'success' }[]>([
   { text: 'DEWAN INTERACTIVE SHELL [VER 4.3.0]', type: 'success' },
   { text: 'READY. TYPE "help" OR "neofetch" TO START.', type: 'output' },
@@ -20,13 +22,33 @@ const handleCommand = (e: Event) => {
   logs.value.push({ text: `guest@dewan:~# ${rawCmd}`, type: 'input' });
   commandInput.value = '';
 
-  if (cmd.startsWith('sudo ')) {
+  const knownCommands = [
+    'help',
+    'neofetch',
+    'about',
+    'skills',
+    'projects',
+    'contact',
+    'coffee',
+    'matrix',
+    'clear',
+  ];
+  if (knownCommands.includes(cmd)) {
+    if (cmd === 'clear') {
+      playClick();
+    } else {
+      playSuccessLog();
+    }
+  } else if (cmd.startsWith('sudo ')) {
+    playErrorLog();
     logs.value.push({
       text: 'guest is not in the sudoers file. This incident will be reported.',
       type: 'error',
     });
     scrollToBottom();
     return;
+  } else {
+    playErrorLog();
   }
 
   switch (cmd) {
@@ -60,9 +82,9 @@ const handleCommand = (e: Event) => {
 ::::'   '::'   '::::  Shell: bash 5.2.15
 ::::     ::     ::::  Resolution: 1920x1080
 ::::.   .::.   .::::  DE: Monospace-TUI
-:::::::;;;;;;:::::::  Theme: CRT-Amber-Glow
+Message  CRT-Amber
 ::::::::::::::::::::  Terminal: Dewan-SH
-'::::::::::::::::::'  CPU: AMD Ryzen 7 (16) @ 4.2GHz
+'::::::::::::::::::'  CPU: AMD Ryzen 7 @ 4.2GHz
   '::::::::::::::'    Memory: 8192MB / 16384MB
      '::::::::'
        '::::'`,
@@ -158,42 +180,44 @@ onMounted(() => {
 
 <template>
   <div
-    class="border-2 border-foreground bg-black text-green-400 font-mono text-xs overflow-hidden flex flex-col justify-between h-[360px] terminal-screen select-none"
+    class="border border-border/80 bg-slate-950 text-cyan-400 font-mono text-xs overflow-hidden flex flex-col justify-between h-[360px] terminal-screen select-none rounded-2xl shadow-xl shadow-black/40"
   >
     <!-- Top terminal window bar -->
     <div
-      class="bg-foreground text-background px-3 py-1 flex items-center justify-between border-b border-foreground"
+      class="bg-slate-900/90 text-slate-300 px-4 py-2.5 flex items-center justify-between border-b border-border/40"
     >
-      <div class="flex items-center gap-2 font-bold uppercase tracking-wider text-[10px]">
-        <Terminal class="size-3.5" />
+      <div
+        class="flex items-center gap-2 font-bold uppercase tracking-wider text-[10px] text-cyan-400"
+      >
+        <Terminal class="size-3.5 text-cyan-400" />
         <span>GUEST_CONSOLE:~#</span>
       </div>
-      <div class="flex gap-1.5">
-        <div class="size-2 bg-background"></div>
-        <div class="size-2 bg-background"></div>
-        <div class="size-2 bg-background"></div>
+      <div class="flex gap-2">
+        <div class="size-2.5 rounded-full bg-red-500/80"></div>
+        <div class="size-2.5 rounded-full bg-yellow-500/80"></div>
+        <div class="size-2.5 rounded-full bg-green-500/80"></div>
       </div>
     </div>
 
     <!-- Terminal Output Area -->
     <div
       ref="terminalContainer"
-      class="flex-1 p-4 overflow-y-auto space-y-1.5 scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-transparent relative"
+      class="flex-1 p-4 overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-cyan-500/30 scrollbar-track-transparent relative"
     >
       <!-- Simulated Digital Rain Code -->
       <div
         v-if="matrixActive"
-        class="absolute inset-0 bg-black/95 flex items-center justify-center overflow-hidden text-green-500 text-[10px] leading-tight select-none"
+        class="absolute inset-0 bg-slate-950/95 flex items-center justify-center overflow-hidden text-cyan-500 text-[10px] leading-tight select-none"
       >
         <div
           class="grid grid-cols-6 gap-2 w-full h-full p-2 select-none opacity-80 animate-pulse font-mono"
         >
           <div v-for="i in 18" :key="i" class="flex flex-col text-center">
             <span
-              v-for="j in 10"
+              v-for="j in 12"
               :key="j"
               class="animate-bounce select-none"
-              :style="`animation-delay: ${j * 80 + i * 20}ms`"
+              :style="`animation-delay: ${j * 60 + i * 30}ms`"
             >
               {{ String.fromCharCode(33 + Math.floor(Math.random() * 93)) }}
             </span>
@@ -206,37 +230,46 @@ onMounted(() => {
         :key="index"
         class="leading-relaxed whitespace-pre-wrap break-all"
       >
-        <span v-if="log.type === 'input'" class="text-white font-bold">$ </span>
-        <span
-          :class="{
-            'text-white': log.type === 'input',
-            'text-green-400': log.type === 'output',
-            'text-red-500 font-bold': log.type === 'error',
-            'text-green-300 font-bold': log.type === 'success',
-          }"
-        >
-          {{ log.text }}
-        </span>
+        <template v-if="log.type === 'input'">
+          <span class="text-cyan-500 font-bold">guest@dewan</span>
+          <span class="text-slate-500">:</span>
+          <span class="text-emerald-400 font-bold">~#</span>
+          <span class="text-white font-medium ml-1.5">{{
+            log.text.replace('guest@dewan:~# ', '')
+          }}</span>
+        </template>
+        <template v-else>
+          <span
+            :class="{
+              'text-cyan-400': log.type === 'output',
+              'text-red-400 font-bold': log.type === 'error',
+              'text-emerald-300 font-bold': log.type === 'success',
+            }"
+          >
+            {{ log.text }}
+          </span>
+        </template>
       </div>
     </div>
 
     <!-- Terminal Command Input Bar -->
     <form
-      class="border-t border-foreground p-3 flex items-center gap-2 bg-black"
+      class="border-t border-border/40 p-3.5 flex items-center gap-2 bg-slate-900/60"
       @submit="handleCommand"
     >
-      <span class="text-green-500 font-bold select-none">$</span>
+      <span class="text-cyan-500 font-bold select-none">$</span>
       <input
         v-model="commandInput"
         type="text"
         placeholder="Type command... (try 'neofetch', 'coffee')"
-        class="flex-1 bg-transparent border-0 text-white outline-none focus:ring-0 p-0 text-xs font-mono placeholder:text-green-800"
+        class="flex-1 bg-transparent border-0 text-white outline-none focus:ring-0 p-0 text-xs font-mono placeholder:text-cyan-900/80"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
+        @keydown="playTick()"
       />
-      <span class="blink-cursor select-none"></span>
+      <span class="blink-cursor select-none text-cyan-400"></span>
     </form>
   </div>
 </template>

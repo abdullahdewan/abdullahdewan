@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Pure black backdrop with no corner radius -->
+  <rect width="512" height="512" fill="#000000" />
+  
+  <g stroke-linejoin="miter" stroke-linecap="butt">
+    <!-- Left slash / (slanted, in neon cyan) -->
+    <path d="M 172 380 L 252 132" stroke="#06b6d4" stroke-width="28" />
+    
+    <!-- White Square Cursor Dot -->
+    <rect x="100" y="358" width="44" height="44" fill="#ffffff" />
+    
+    <!-- Right slash / (slanted, in neon cyan) -->
+    <path d="M 242 380 L 322 132" stroke="#06b6d4" stroke-width="28" />
+    
+    <!-- Triangular D loop (white, connecting top and bottom of the second slash via a sharp triangular track pointing right) -->
+    <path d="M 322 132 L 412 256 L 242 380" stroke="#ffffff" stroke-width="28" />
+  </g>
+</svg>

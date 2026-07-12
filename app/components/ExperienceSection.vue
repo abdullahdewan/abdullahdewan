@@ -49,39 +49,48 @@ const timeline: Event[] = [
 
 <template>
   <div class="space-y-6">
-    <div class="border-b-2 border-foreground pb-4">
-      <h2 class="text-xl uppercase font-bold tracking-tight">LOGGED_OPERATIONS.log</h2>
+    <div class="border-b border-border/60 pb-4">
+      <h2
+        class="text-lg font-bold font-heading tracking-tight flex items-center gap-2 text-foreground"
+      >
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        LOGGED_OPERATIONS.log
+      </h2>
       <p class="text-xs text-muted-foreground uppercase font-mono mt-1">
         Chronological activity of systems deployment since 2021
       </p>
     </div>
-    <div class="pt-2">
-      <div class="relative border-l-2 border-foreground/30 pl-6 ml-2 space-y-8 font-mono">
+    <div class="pt-4 font-sans">
+      <div class="relative border-l-2 border-border/70 pl-8 ml-4 space-y-10">
         <!-- Event node -->
-        <div v-for="event in timeline" :key="event.year" class="relative">
-          <!-- Bullet Node Icon -->
+        <div v-for="event in timeline" :key="event.year" class="relative group">
+          <!-- Bullet Node Icon with Glow -->
           <div
-            class="absolute -left-[35px] top-1 bg-background border-2 border-foreground p-1 z-10"
+            class="absolute -left-[45px] top-0.5 bg-card border border-border p-2 rounded-xl z-10 transition-all duration-300 group-hover:border-primary group-hover:shadow-[0_0_12px_var(--glow-color)] text-foreground group-hover:text-primary"
           >
-            <component :is="event.icon" class="size-3.5 text-foreground" />
+            <component :is="event.icon" class="size-4" />
           </div>
 
-          <div class="space-y-1">
+          <div class="space-y-2">
             <span
-              class="text-[10px] bg-foreground text-background px-1.5 py-0.5 font-bold uppercase tracking-wider"
+              class="inline-block text-[9px] bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded font-mono font-bold uppercase tracking-wider"
             >
               {{ event.year }}
             </span>
-            <h3 class="text-sm font-bold text-foreground uppercase mt-1">
+            <h3 class="text-base font-bold text-foreground uppercase tracking-tight">
               {{ event.title }}
             </h3>
-            <h4 class="text-xs text-muted-foreground uppercase">
+            <h4 class="text-xs text-muted-foreground uppercase font-mono font-medium tracking-wide">
               {{ event.subtitle }}
             </h4>
 
-            <ul class="list-none space-y-1 mt-3 pl-0 text-xs text-foreground/80">
-              <li v-for="bullet in event.description" :key="bullet" class="flex gap-2 items-start">
-                <span class="text-foreground font-black select-none">></span>
+            <ul class="list-none space-y-2 mt-4 pl-0 text-sm text-foreground/80">
+              <li
+                v-for="bullet in event.description"
+                :key="bullet"
+                class="flex gap-2 items-start leading-relaxed"
+              >
+                <span class="text-primary font-black select-none font-mono text-xs mt-0.5">></span>
                 <span>{{ bullet }}</span>
               </li>
             </ul>
