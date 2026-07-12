@@ -15,7 +15,8 @@
     "lint:fix": "eslint . --fix",
     "lighthouse": "lighthouse http://localhost:3000 --view --preset=desktop --output-path=./reports/lighthouse-desktop.html --chrome-flags='--headless'",
     "lighthouse:mobile": "lighthouse http://localhost:3000 --view --preset=all --output-path=./reports/lighthouse-mobile.html --chrome-flags='--headless'",
-    "lighthouse:ci": "lighthouse http://localhost:3000 --output json --output-path=./reports/lighthouse-report.json --chrome-flags='--headless'"
+    "lighthouse:ci": "lighthouse http://localhost:3000 --output json --output-path=./reports/lighthouse-report.json --chrome-flags='--headless'",
+    "test": "vitest run"
   },
   "dependencies": {
     "@unhead/vue": "^3.1.6",
