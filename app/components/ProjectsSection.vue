@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import {
   Card,
   CardContent,
@@ -70,8 +70,6 @@ const featuredProjects = ref<Project[]>([
   },
 ]);
 
-const repos = ref<Project[]>([]);
-const loading = ref(true);
 const fetchError = ref(false);
 const searchQuery = ref('');
 
@@ -84,73 +82,78 @@ interface GitHubRepo {
   language: string | null;
 }
 
-const loadProjects = async () => {
-  if (
-    typeof window !== 'undefined' &&
-    (window.navigator.webdriver || window.navigator.userAgent.includes('Lighthouse'))
-  ) {
-    repos.value = featuredProjects.value;
-    loading.value = false;
-    return;
-  }
-  try {
-    const res = await fetch(
-      'https://api.github.com/users/abdullahdewan/repos?sort=updated&per_page=6'
-    );
-    if (!res.ok) throw new Error('API limit or network error');
-    const githubData = (await res.json()) as GitHubRepo[];
-
-    // Map GitHub API data to match existing schema
-    const apiRepos = githubData.map((repo): Project => {
-      // Find matches in featured array to preserve tech stack tags
-      const match = featuredProjects.value.find(
-        (p) => p.name.toLowerCase() === repo.name.toLowerCase()
+const { data: repos, status } = useAsyncData<Project[]>(
+  'github-projects',
+  async () => {
+    if (
+      typeof window !== 'undefined' &&
+      (window.navigator.webdriver || window.navigator.userAgent.includes('Lighthouse'))
+    ) {
+      return featuredProjects.value;
+    }
+    try {
+      const githubData = await $fetch<GitHubRepo[]>(
+        'https://api.github.com/users/abdullahdewan/repos?sort=updated&per_page=6'
       );
-      return {
-        name: repo.name,
-        description: repo.description || match?.description || 'No description provided.',
-        stars: repo.stargazers_count,
-        forks: repo.forks_count,
-        url: repo.html_url,
-        language: repo.language || match?.language || 'Unknown',
-        isFeatured: match?.isFeatured || false,
-        techStack: match?.techStack || [repo.language].filter((l): l is string => !!l),
-      };
-    });
 
-    // Separate featured and other repos, prioritizing featured ones
-    const featuredMapped = apiRepos.filter((r) => r.isFeatured);
-    const otherMapped = apiRepos.filter(
-      (r) => !r.isFeatured && r.name !== 'wordpress' && r.name !== 'abdullahdewan'
-    );
+      // Map GitHub API data to match existing schema
+      const apiRepos = githubData.map((repo): Project => {
+        // Find matches in featured array to preserve tech stack tags
+        const match = featuredProjects.value.find(
+          (p) => p.name.toLowerCase() === repo.name.toLowerCase()
+        );
+        return {
+          name: repo.name,
+          description: repo.description || match?.description || 'No description provided.',
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          url: repo.html_url,
+          language: repo.language || match?.language || 'Unknown',
+          isFeatured: match?.isFeatured || false,
+          techStack: match?.techStack || [repo.language].filter((l): l is string => !!l),
+        };
+      });
 
-    // Merge keeping featured first
-    repos.value = [...featuredMapped, ...otherMapped];
-    loading.value = false;
-  } catch (err) {
-    console.warn(err);
-    fetchError.value = true;
-    // Fallback to static data
-    repos.value = featuredProjects.value;
-    loading.value = false;
+      // Separate featured and other repos, prioritizing featured ones
+      const featuredMapped = apiRepos.filter((r) => r.isFeatured);
+      const otherMapped = apiRepos.filter(
+        (r) => !r.isFeatured && r.name !== 'wordpress' && r.name !== 'abdullahdewan'
+      );
+
+      fetchError.value = false;
+      return [...featuredMapped, ...otherMapped];
+    } catch (err) {
+      console.warn(err);
+      fetchError.value = true;
+      // Fallback to static data
+      return featuredProjects.value;
+    }
+  },
+  {
+    server: false,
+    default: () => [],
+    getCachedData(key) {
+      const nuxtApp = useNuxtApp();
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
   }
-};
+);
+
+const loading = computed(() => status.value === 'pending');
 
 const filteredRepos = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
-  if (!query) return repos.value;
+  // repos.value is guaranteed to be an array because of default: () => []
+  const projects = repos.value || [];
+  if (!query) return projects;
 
-  return repos.value.filter((project) => {
+  return projects.filter((project) => {
     const nameMatch = project.name.toLowerCase().includes(query);
     const descMatch = project.description.toLowerCase().includes(query);
     const langMatch = project.language.toLowerCase().includes(query);
     const stackMatch = project.techStack.some((tech) => tech.toLowerCase().includes(query));
     return nameMatch || descMatch || langMatch || stackMatch;
   });
-});
-
-onMounted(() => {
-  loadProjects();
 });
 </script>
 
