@@ -123,6 +123,18 @@ onMounted(() => {
     timer = setInterval(updateClock, 1000);
   });
 
+  // Global handler for dynamic import chunk loading failures (e.g. after new deploys)
+  if (typeof window !== 'undefined') {
+    const handleChunkError = (e: ErrorEvent | PromiseRejectionEvent) => {
+      const errorMsg = 'message' in e ? e.message : e.reason && e.reason.message;
+      if (errorMsg && errorMsg.includes('Failed to fetch dynamically imported module')) {
+        window.location.reload();
+      }
+    };
+    window.addEventListener('error', handleChunkError, true);
+    window.addEventListener('unhandledrejection', handleChunkError, true);
+  }
+
   // Setup scrollspy observer
   if (typeof IntersectionObserver !== 'undefined') {
     const observerOptions = {
