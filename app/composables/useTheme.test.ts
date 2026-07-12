@@ -1,13 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ref } from 'vue';
+import { useTheme } from './useTheme';
 
 const mockMode = ref('light');
 
 vi.mock('@vueuse/core', () => ({
   useColorMode: vi.fn(() => mockMode),
 }));
-
-import { useTheme } from './useTheme';
 
 describe('useTheme', () => {
   beforeEach(() => {
