@@ -79,16 +79,8 @@ const updateClock = () => {
   try {
     tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
   } catch {
-    try {
-      const parts = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(d);
-      const tzPart = parts.find((p) => p.type === 'timeZoneName');
-      tz = tzPart ? tzPart.value : '';
-    } catch {
-      const offset = -d.getTimezoneOffset();
-      const sign = offset >= 0 ? '+' : '-';
-      const offsetHrs = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0');
-      tz = `GMT${sign}${offsetHrs}`;
-    }
+    const timeWithTz = d.toLocaleTimeString('en-US', { timeZoneName: 'short' });
+    tz = timeWithTz.split(' ').pop() || '';
   }
 
   timeString.value = `${timePart} ${tz}`.toUpperCase();
