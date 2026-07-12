@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import { Button } from '~/components/ui/button';
 import { Send, CheckCircle2, Lock, Unlock } from 'lucide-vue-next';
 
@@ -23,13 +23,21 @@ const activateTurnstile = () => {
 const { playClick, playTick, playSuccessLog, playErrorLog } = useAudio();
 const { colorMode } = useTheme();
 
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+onUnmounted(() => {
+  activeTimeouts.forEach(clearTimeout);
+});
+
 const logOutput = (text: string, delay: number) => {
   return new Promise((resolve) => {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       consoleLogs.value.push(text);
       if (secureMode.value) playTick();
+      activeTimeouts.delete(timeoutId);
       resolve(true);
     }, delay);
+    activeTimeouts.add(timeoutId);
   });
 };
 
