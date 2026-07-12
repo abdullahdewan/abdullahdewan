@@ -15,7 +15,8 @@
     "lint:fix": "eslint . --fix",
     "lighthouse": "lighthouse http://localhost:3000 --view --preset=desktop --output-path=./reports/lighthouse-desktop.html --chrome-flags='--headless'",
     "lighthouse:mobile": "lighthouse http://localhost:3000 --view --preset=all --output-path=./reports/lighthouse-mobile.html --chrome-flags='--headless'",
-    "lighthouse:ci": "lighthouse http://localhost:3000 --output json --output-path=./reports/lighthouse-report.json --chrome-flags='--headless'"
+    "lighthouse:ci": "lighthouse http://localhost:3000 --output json --output-path=./reports/lighthouse-report.json --chrome-flags='--headless'",
+    "test": "vitest run"
   },
   "dependencies": {
     "@unhead/vue": "^3.1.6",
@@ -37,15 +38,18 @@
     "@types/node": "^26.0.1",
     "@typescript-eslint/eslint-plugin": "^8.62.0",
     "@typescript-eslint/parser": "^8.62.0",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.2",
+    "happy-dom": "^20.10.6",
     "husky": "^9.1.7",
     "nuxt": "^4.4.8",
     "prettier": "^3.9.1",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
+    "vitest": "^4.1.10",
     "vue-eslint-parser": "^10.4.1",
     "vue-router": "^5.1.0",
     "vue-tsc": "^3.3.5"
