@@ -49,48 +49,55 @@ const timeline: Event[] = [
 
 <template>
   <div class="space-y-6">
-    <div class="border-b border-border/60 pb-4">
+    <div class="border-b-3 border-black dark:border-white pb-4">
       <h2
-        class="text-lg font-bold font-heading tracking-tight flex items-center gap-2 text-foreground"
+        class="text-lg font-black font-mono tracking-tight flex items-center gap-2 text-foreground uppercase"
       >
-        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <span class="w-3 h-5 bg-primary border border-black dark:border-white"></span>
         LOGGED_OPERATIONS.log
       </h2>
-      <p class="text-xs text-muted-foreground uppercase font-mono mt-1">
+      <p class="text-xs text-foreground font-mono font-bold uppercase mt-1">
         Chronological activity of systems deployment since 2021
       </p>
     </div>
+
     <div class="pt-4 font-sans">
-      <div class="relative border-l-2 border-border/70 pl-8 ml-4 space-y-10">
+      <div class="relative border-l-4 border-black dark:border-white pl-8 ml-4 space-y-8">
         <!-- Event node -->
         <div v-for="event in timeline" :key="event.year" class="relative group">
-          <!-- Bullet Node Icon with Glow -->
+          <!-- Bullet Node Icon with Hard Shadow -->
           <div
-            class="absolute -left-[45px] top-0.5 bg-card border border-border p-2 rounded-xl z-10 transition-all duration-300 group-hover:border-primary group-hover:shadow-[0_0_12px_var(--glow-color)] text-foreground group-hover:text-primary"
+            class="absolute -left-[49px] top-1 bg-primary border-2 border-black dark:border-white p-2 text-primary-foreground shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#ffffff]"
           >
             <component :is="event.icon" class="size-4" />
           </div>
 
-          <div class="space-y-2">
+          <div
+            class="bg-card border-3 border-black dark:border-white p-5 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06b6d4] space-y-3"
+          >
             <span
-              class="inline-block text-[9px] bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded font-mono font-bold uppercase tracking-wider"
+              class="inline-block text-[9px] bg-secondary text-secondary-foreground border-2 border-black dark:border-white px-2.5 py-1 font-mono font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_#000]"
             >
               {{ event.year }}
             </span>
-            <h3 class="text-base font-bold text-foreground uppercase tracking-tight">
+            <h3 class="text-base font-black text-foreground uppercase tracking-tight font-heading">
               {{ event.title }}
             </h3>
-            <h4 class="text-xs text-muted-foreground uppercase font-mono font-medium tracking-wide">
+            <h4 class="text-xs text-muted-foreground uppercase font-mono font-bold tracking-wide">
               {{ event.subtitle }}
             </h4>
 
-            <ul class="list-none space-y-2 mt-4 pl-0 text-sm text-foreground/80">
+            <ul
+              class="list-none space-y-2 mt-4 pl-0 text-sm text-foreground font-medium border-t-2 border-black dark:border-white pt-3"
+            >
               <li
                 v-for="bullet in event.description"
                 :key="bullet"
                 class="flex gap-2 items-start leading-relaxed"
               >
-                <span class="text-primary font-black select-none font-mono text-xs mt-0.5">></span>
+                <span class="text-primary font-black select-none font-mono text-xs mt-0.5"
+                  >&gt;</span
+                >
                 <span>{{ bullet }}</span>
               </li>
             </ul>

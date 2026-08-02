@@ -5,11 +5,11 @@ import { ExternalLink, Cpu, CheckCircle2, Play } from 'lucide-vue-next';
 
 interface Skill {
   name: string;
-  level: number; // 1 to 10
+  level: number;
   category: 'languages' | 'backend' | 'frontend';
   comment: string;
   officialUrl: string;
-  details: string[]; // Tech items they know in this
+  details: string[];
 }
 
 const skills: Skill[] = [
@@ -131,7 +131,6 @@ const runSanityCheck = () => {
   }, 600);
 };
 
-// Reset tester on skill change
 const selectSkill = (skill: Skill) => {
   playClick();
   selectedSkill.value = skill;
@@ -143,26 +142,26 @@ const selectSkill = (skill: Skill) => {
 
 <template>
   <div class="space-y-6">
-    <div class="border-b border-border/60 pb-4">
+    <div class="border-b-3 border-black dark:border-white pb-4">
       <h2
-        class="text-lg font-bold font-heading tracking-tight flex items-center gap-2 text-foreground"
+        class="text-lg font-black font-mono tracking-tight flex items-center gap-2 text-foreground uppercase"
       >
-        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <span class="w-3 h-5 bg-primary border border-black dark:border-white"></span>
         SYS_SKILLS_MATRIX.exe
       </h2>
-      <p class="text-[10px] text-muted-foreground uppercase font-mono mt-1">
+      <p class="text-[10px] text-foreground font-mono font-bold uppercase mt-1">
         Skill metrics based on commercial operations since 2021 // Click on any skill card to
         analyze
       </p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start font-sans">
-      <!-- Skills Matrix Column (2/3 width on desktop) -->
+      <!-- Skills Matrix Column -->
       <div class="lg:col-span-2 space-y-6">
         <!-- Languages Section -->
         <div class="space-y-3">
           <h3
-            class="text-[10px] font-bold uppercase tracking-widest text-primary border-b border-border/40 pb-1 font-mono"
+            class="text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground px-2.5 py-1 inline-block border-2 border-black dark:border-white font-mono shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#ffffff]"
           >
             01 // CORE_LANGUAGES
           </h3>
@@ -170,33 +169,39 @@ const selectSkill = (skill: Skill) => {
             <div
               v-for="skill in skills.filter((s) => s.category === 'languages')"
               :key="skill.name"
-              class="bg-card/35 border rounded-xl p-4 flex flex-col justify-between gap-3.5 shadow-sm transition-all duration-300 cursor-pointer"
+              class="bg-card border-3 border-black dark:border-white p-4 flex flex-col justify-between gap-3 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] transition-all duration-150 cursor-pointer"
               :class="
                 selectedSkill.name === skill.name
-                  ? 'border-primary/80 bg-primary/5 shadow-[0_0_12px_rgba(6,182,212,0.1)]'
-                  : 'border-border/85 hover:border-primary/40'
+                  ? 'bg-yellow-100 dark:bg-slate-900 border-3 border-black dark:border-cyan-400 shadow-[5px_5px_0px_0px_#000] -translate-y-0.5'
+                  : 'hover:-translate-y-0.5'
               "
               @click="selectSkill(skill)"
               @mouseenter="playTick()"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <div class="font-bold text-foreground text-sm flex items-center gap-1.5">
+                  <div
+                    class="font-black text-foreground text-sm flex items-center gap-1.5 font-mono uppercase"
+                  >
                     <span>{{ skill.name }}</span>
                   </div>
-                  <span class="text-[9px] text-muted-foreground font-mono mt-0.5 block"
+                  <span class="text-[9px] text-muted-foreground font-mono font-bold mt-0.5 block"
                     >// {{ skill.comment }}</span
                   >
                 </div>
                 <span
-                  class="text-[10px] font-bold text-primary font-mono bg-primary/10 px-2 py-0.5 rounded-md"
+                  class="text-[10px] font-black text-primary-foreground font-mono bg-primary px-2 py-0.5 border border-black dark:border-white shadow-[1px_1px_0px_0px_#000]"
                   >{{ skill.level * 10 }}%</span
                 >
               </div>
-              <div class="w-full bg-muted/65 rounded-full h-1.5 overflow-hidden relative">
+              <div
+                class="w-full bg-slate-900 border-2 border-black dark:border-white h-3.5 p-0.5 flex gap-0.5"
+              >
                 <div
-                  class="bg-gradient-to-r from-primary to-cyan-400 h-full rounded-full"
-                  :style="`width: ${skill.level * 10}%`"
+                  v-for="barIdx in 10"
+                  :key="barIdx"
+                  class="h-full flex-1 border border-black"
+                  :class="barIdx <= skill.level ? 'bg-primary' : 'bg-slate-800'"
                 ></div>
               </div>
             </div>
@@ -206,7 +211,7 @@ const selectSkill = (skill: Skill) => {
         <!-- Backend Section -->
         <div class="space-y-3">
           <h3
-            class="text-[10px] font-bold uppercase tracking-widest text-primary border-b border-border/40 pb-1 font-mono"
+            class="text-[10px] font-black uppercase tracking-widest bg-secondary text-secondary-foreground px-2.5 py-1 inline-block border-2 border-black dark:border-white font-mono shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#ffffff]"
           >
             02 // DATABASE_&&_BACKEND
           </h3>
@@ -214,33 +219,39 @@ const selectSkill = (skill: Skill) => {
             <div
               v-for="skill in skills.filter((s) => s.category === 'backend')"
               :key="skill.name"
-              class="bg-card/35 border rounded-xl p-4 flex flex-col justify-between gap-3.5 shadow-sm transition-all duration-300 cursor-pointer"
+              class="bg-card border-3 border-black dark:border-white p-4 flex flex-col justify-between gap-3 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] transition-all duration-150 cursor-pointer"
               :class="
                 selectedSkill.name === skill.name
-                  ? 'border-primary/80 bg-primary/5 shadow-[0_0_12px_rgba(6,182,212,0.1)]'
-                  : 'border-border/85 hover:border-primary/40'
+                  ? 'bg-cyan-100 dark:bg-slate-900 border-3 border-black dark:border-yellow-400 shadow-[5px_5px_0px_0px_#000] -translate-y-0.5'
+                  : 'hover:-translate-y-0.5'
               "
               @click="selectSkill(skill)"
               @mouseenter="playTick()"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <div class="font-bold text-foreground text-sm flex items-center gap-1.5">
+                  <div
+                    class="font-black text-foreground text-sm flex items-center gap-1.5 font-mono uppercase"
+                  >
                     <span>{{ skill.name }}</span>
                   </div>
-                  <span class="text-[9px] text-muted-foreground font-mono mt-0.5 block"
+                  <span class="text-[9px] text-muted-foreground font-mono font-bold mt-0.5 block"
                     >// {{ skill.comment }}</span
                   >
                 </div>
                 <span
-                  class="text-[10px] font-bold text-primary font-mono bg-primary/10 px-2 py-0.5 rounded-md"
+                  class="text-[10px] font-black text-secondary-foreground font-mono bg-secondary px-2 py-0.5 border border-black dark:border-white shadow-[1px_1px_0px_0px_#000]"
                   >{{ skill.level * 10 }}%</span
                 >
               </div>
-              <div class="w-full bg-muted/65 rounded-full h-1.5 overflow-hidden relative">
+              <div
+                class="w-full bg-slate-900 border-2 border-black dark:border-white h-3.5 p-0.5 flex gap-0.5"
+              >
                 <div
-                  class="bg-gradient-to-r from-primary to-cyan-400 h-full rounded-full"
-                  :style="`width: ${skill.level * 10}%`"
+                  v-for="barIdx in 10"
+                  :key="barIdx"
+                  class="h-full flex-1 border border-black"
+                  :class="barIdx <= skill.level ? 'bg-secondary' : 'bg-slate-800'"
                 ></div>
               </div>
             </div>
@@ -250,7 +261,7 @@ const selectSkill = (skill: Skill) => {
         <!-- Frontend Section -->
         <div class="space-y-3">
           <h3
-            class="text-[10px] font-bold uppercase tracking-widest text-primary border-b border-border/40 pb-1 font-mono"
+            class="text-[10px] font-black uppercase tracking-widest bg-pink-700 text-white px-2.5 py-1 inline-block border-2 border-black dark:border-white font-mono shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#ffffff]"
           >
             03 // CLIENT_FRAMEWORKS
           </h3>
@@ -258,33 +269,39 @@ const selectSkill = (skill: Skill) => {
             <div
               v-for="skill in skills.filter((s) => s.category === 'frontend')"
               :key="skill.name"
-              class="bg-card/35 border rounded-xl p-4 flex flex-col justify-between gap-3.5 shadow-sm transition-all duration-300 cursor-pointer"
+              class="bg-card border-3 border-black dark:border-white p-4 flex flex-col justify-between gap-3 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] transition-all duration-150 cursor-pointer"
               :class="
                 selectedSkill.name === skill.name
-                  ? 'border-primary/80 bg-primary/5 shadow-[0_0_12px_rgba(6,182,212,0.1)]'
-                  : 'border-border/85 hover:border-primary/40'
+                  ? 'bg-pink-100 dark:bg-slate-900 border-3 border-black dark:border-pink-500 shadow-[5px_5px_0px_0px_#000] -translate-y-0.5'
+                  : 'hover:-translate-y-0.5'
               "
               @click="selectSkill(skill)"
               @mouseenter="playTick()"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <div class="font-bold text-foreground text-sm flex items-center gap-1.5">
+                  <div
+                    class="font-black text-foreground text-sm flex items-center gap-1.5 font-mono uppercase"
+                  >
                     <span>{{ skill.name }}</span>
                   </div>
-                  <span class="text-[9px] text-muted-foreground font-mono mt-0.5 block"
+                  <span class="text-[9px] text-muted-foreground font-mono font-bold mt-0.5 block"
                     >// {{ skill.comment }}</span
                   >
                 </div>
                 <span
-                  class="text-[10px] font-bold text-primary font-mono bg-primary/10 px-2 py-0.5 rounded-md"
+                  class="text-[10px] font-black text-white font-mono bg-pink-700 px-2 py-0.5 border border-black dark:border-white shadow-[1px_1px_0px_0px_#000]"
                   >{{ skill.level * 10 }}%</span
                 >
               </div>
-              <div class="w-full bg-muted/65 rounded-full h-1.5 overflow-hidden relative">
+              <div
+                class="w-full bg-slate-900 border-2 border-black dark:border-white h-3.5 p-0.5 flex gap-0.5"
+              >
                 <div
-                  class="bg-gradient-to-r from-primary to-cyan-400 h-full rounded-full"
-                  :style="`width: ${skill.level * 10}%`"
+                  v-for="barIdx in 10"
+                  :key="barIdx"
+                  class="h-full flex-1 border border-black"
+                  :class="barIdx <= skill.level ? 'bg-pink-600' : 'bg-slate-800'"
                 ></div>
               </div>
             </div>
@@ -292,36 +309,38 @@ const selectSkill = (skill: Skill) => {
         </div>
       </div>
 
-      <!-- Skill Analyzer HUD Column (1/3 width on desktop) -->
-      <div class="lg:col-span-1 space-y-4">
+      <!-- Skill Analyzer HUD Column -->
+      <div class="lg:col-span-1 space-y-4 font-mono">
         <div
-          class="border border-border bg-card/45 backdrop-blur-md p-4 rounded-xl font-mono text-[10px] leading-relaxed select-none relative"
+          class="border-3 border-black dark:border-white bg-card p-4 text-[10px] leading-relaxed select-none relative shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06b6d4]"
         >
-          <!-- HUD corners decoration -->
-          <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/60"></div>
-          <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary/60"></div>
-          <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary/60"></div>
-          <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/60"></div>
-
-          <div class="border-b border-border/60 pb-2.5 mb-3 flex items-center justify-between">
-            <span class="font-bold text-primary uppercase flex items-center gap-1.5">
-              <Cpu class="size-3.5 text-primary" />
+          <div
+            class="border-b-2 border-black dark:border-white pb-2 mb-3 flex items-center justify-between bg-primary text-primary-foreground p-2 border border-black"
+          >
+            <span class="font-black uppercase flex items-center gap-1.5">
+              <Cpu class="size-4" />
               SKILL ANALYZER HUD
             </span>
-            <span class="text-[8px] text-muted-foreground">ID: 0{{ selectedSkill.level }}</span>
+            <span class="text-[9px] font-black bg-black text-white px-1.5 py-0.5"
+              >ID: 0{{ selectedSkill.level }}</span
+            >
           </div>
 
           <!-- Display Box -->
           <div class="space-y-4">
             <div>
-              <span class="text-[8px] text-muted-foreground block uppercase">SELECTED NODE:</span>
+              <span class="text-[8px] text-muted-foreground block uppercase font-bold"
+                >SELECTED NODE:</span
+              >
               <div class="flex items-center justify-between mt-0.5">
-                <span class="text-sm font-bold text-foreground">{{ selectedSkill.name }}</span>
+                <span class="text-sm font-black text-foreground uppercase">{{
+                  selectedSkill.name
+                }}</span>
                 <a
                   :href="selectedSkill.officialUrl"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-[9px] text-primary hover:underline flex items-center gap-0.5"
+                  class="text-[9px] font-black bg-secondary text-secondary-foreground px-2 py-0.5 border border-black dark:border-white shadow-[1px_1px_0px_0px_#000] flex items-center gap-0.5"
                 >
                   DOCS
                   <ExternalLink class="size-2.5" />
@@ -331,70 +350,69 @@ const selectSkill = (skill: Skill) => {
 
             <!-- Proficiency details load -->
             <div>
-              <span class="text-[8px] text-muted-foreground block uppercase"
+              <span class="text-[8px] text-muted-foreground block uppercase font-bold"
                 >SYS LOAD CAPACITY:</span
               >
               <div class="flex items-center gap-2 mt-1">
-                <!-- Segmented block indicators -->
-                <div class="flex gap-0.5 flex-1">
+                <div class="flex gap-1 flex-1 bg-slate-900 border-2 border-black p-1">
                   <div
                     v-for="idx in 10"
                     :key="idx"
-                    class="h-3 flex-1 rounded-xs"
-                    :class="
-                      idx <= selectedSkill.level
-                        ? 'bg-primary'
-                        : 'bg-muted/70 dark:bg-slate-900 border border-border/40'
-                    "
+                    class="h-3.5 flex-1 border border-black"
+                    :class="idx <= selectedSkill.level ? 'bg-primary' : 'bg-slate-800'"
                   ></div>
                 </div>
-                <span class="font-bold text-foreground">{{ selectedSkill.level * 10 }}%</span>
+                <span class="font-black text-foreground text-xs"
+                  >{{ selectedSkill.level * 10 }}%</span
+                >
               </div>
             </div>
 
             <!-- Tech Details Bullet points -->
-            <div class="bg-muted/30 dark:bg-slate-950/80 p-2.5 rounded-lg border border-border">
-              <span class="text-[8px] text-primary block uppercase mb-1.5 font-bold"
+            <div
+              class="bg-muted p-3 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000]"
+            >
+              <span class="text-[8px] text-foreground font-black block uppercase mb-1.5"
                 >// TECH_INTEGRATION_METRIC:</span
               >
-              <ul class="space-y-1 text-muted-foreground dark:text-slate-300">
+              <ul class="space-y-1 text-foreground font-bold">
                 <li
                   v-for="(detail, i) in selectedSkill.details"
                   :key="i"
                   class="flex items-start gap-1"
                 >
-                  <span class="text-primary font-bold">»</span>
+                  <span class="text-primary font-black">»</span>
                   <span class="leading-tight">{{ detail }}</span>
                 </li>
               </ul>
             </div>
 
             <!-- Compiling Sanity Checker -->
-            <div class="border-t border-dashed border-border pt-3">
+            <div class="border-t-2 border-black dark:border-white pt-3">
               <button
-                class="w-full py-2 bg-muted/40 border border-border hover:bg-muted/80 hover:border-primary/50 text-foreground transition-all rounded-lg text-[9px] font-bold text-center tracking-widest cursor-pointer uppercase flex items-center justify-center gap-1.5"
+                class="w-full py-2.5 bg-secondary text-secondary-foreground border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none text-[9px] font-black text-center tracking-widest cursor-pointer uppercase flex items-center justify-center gap-1.5 transition-all"
                 :disabled="isTesting"
                 @click="runSanityCheck"
                 @mouseenter="playTick()"
               >
-                <Play v-if="!isTesting" class="size-2.5 text-primary fill-primary" />
-                <span v-else class="size-2 rounded-full bg-amber-500 animate-ping"></span>
+                <Play v-if="!isTesting" class="size-3 fill-black dark:fill-white" />
+                <span v-else class="size-2 bg-amber-400 border border-black animate-ping"></span>
                 {{ isTesting ? 'RUNNING COMPILE SCAN...' : 'RUN AST SANITY CHECK' }}
               </button>
 
               <!-- Tester Logs Output -->
               <div
                 v-if="testLogs.length > 0"
-                class="mt-2.5 bg-slate-950 text-cyan-400 p-2.5 rounded-lg border border-cyan-900/30 font-mono text-[7px] leading-relaxed max-h-[90px] overflow-y-auto"
+                class="mt-2.5 bg-slate-950 text-cyan-400 p-2.5 border-2 border-black font-mono text-[8px] leading-relaxed max-h-[100px] overflow-y-auto"
               >
-                <div v-for="(log, i) in testLogs" :key="i" class="truncate">
-                  <span class="text-cyan-600/60">&gt;</span> {{ log }}
+                <div v-for="(log, i) in testLogs" :key="i" class="truncate font-bold">
+                  <span class="text-yellow-400">&gt;</span> {{ log }}
                 </div>
                 <div
                   v-if="testSuccess"
-                  class="text-green-400 font-bold flex items-center gap-1 mt-1.5 uppercase text-[8px] border-t border-green-500/20 pt-1.5"
+                  class="text-green-400 font-black flex items-center gap-1 mt-1.5 uppercase text-[9px] border-t border-green-500/30 pt-1.5"
                 >
-                  <CheckCircle2 class="size-3 text-green-400" />
+                  <CheckCircle2 class="size-3.5 text-green-400" />
                   STATUS: COMPILE NOMINAL (0 ERRORS)
                 </div>
               </div>
@@ -404,23 +422,23 @@ const selectSkill = (skill: Skill) => {
       </div>
     </div>
 
-    <!-- Meta Tags / Environment tags -->
-    <div class="border-t border-border pt-5 font-sans">
-      <div class="text-[10px] text-muted-foreground font-mono uppercase mb-3 tracking-wider">
+    <!-- Meta Tags / Environment keywords -->
+    <div class="border-t-3 border-black dark:border-white pt-5 font-sans">
+      <div class="text-[10px] text-foreground font-mono font-black uppercase mb-3 tracking-wider">
         ADDITIONAL_ENVIRONMENT_KEYWORDS:
       </div>
       <div class="flex flex-wrap gap-2">
         <a href="https://en.wikipedia.org/wiki/REST" target="_blank" rel="noopener noreferrer">
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >REST_APIS</Badge
           >
         </a>
         <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer">
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >DOCKER</Badge
           >
         </a>
@@ -431,28 +449,28 @@ const selectSkill = (skill: Skill) => {
         >
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >WEBSOCKETS</Badge
           >
         </a>
         <a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >GIT</Badge
           >
         </a>
         <a href="https://www.debian.org/" target="_blank" rel="noopener noreferrer">
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >LINUX_DEBIAN</Badge
           >
         </a>
         <a href="https://en.wikipedia.org/wiki/CI/CD" target="_blank" rel="noopener noreferrer">
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >CI_CD</Badge
           >
         </a>
@@ -463,7 +481,7 @@ const selectSkill = (skill: Skill) => {
         >
           <Badge
             variant="outline"
-            class="rounded-lg border-border bg-card/40 text-foreground text-[10px] font-mono font-bold px-3 py-1 hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
+            class="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
             >SQL_OPTIMIZATION</Badge
           >
         </a>

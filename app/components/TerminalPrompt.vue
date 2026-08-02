@@ -82,7 +82,6 @@ const handleCommand = (e: Event) => {
 ::::'   '::'   '::::  Shell: bash 5.2.15
 ::::     ::     ::::  Resolution: 1920x1080
 ::::.   .::.   .::::  DE: Monospace-TUI
-Message  CRT-Amber
 ::::::::::::::::::::  Terminal: Dewan-SH
 '::::::::::::::::::'  CPU: AMD Ryzen 7 @ 4.2GHz
   '::::::::::::::'    Memory: 8192MB / 16384MB
@@ -180,37 +179,34 @@ onMounted(() => {
 
 <template>
   <div
-    class="border border-border/80 bg-slate-950 text-cyan-400 font-mono text-xs overflow-hidden flex flex-col justify-between h-[360px] terminal-screen select-none rounded-2xl shadow-xl shadow-black/40"
+    class="border-3 border-black dark:border-white bg-slate-950 text-cyan-400 font-mono text-xs overflow-hidden flex flex-col justify-between h-[360px] terminal-screen select-none shadow-[5px_5px_0px_0px_#000000] dark:shadow-[5px_5px_0px_0px_#06b6d4]"
   >
     <!-- Top terminal window bar -->
     <div
-      class="bg-slate-900/90 text-slate-300 px-4 py-2.5 flex items-center justify-between border-b border-border/40"
+      class="bg-slate-900 text-slate-200 px-4 py-2.5 flex items-center justify-between border-b-3 border-black dark:border-white font-black"
     >
       <div
-        class="flex items-center gap-2 font-bold uppercase tracking-wider text-[10px] text-cyan-400"
+        class="flex items-center gap-2 font-black uppercase tracking-wider text-[10px] text-yellow-400"
       >
-        <Terminal class="size-3.5 text-cyan-400" />
+        <Terminal class="size-4 text-yellow-400" />
         <span>GUEST_CONSOLE:~#</span>
       </div>
-      <div class="flex gap-2">
-        <div class="size-2.5 rounded-full bg-red-500/80"></div>
-        <div class="size-2.5 rounded-full bg-yellow-500/80"></div>
-        <div class="size-2.5 rounded-full bg-green-500/80"></div>
+      <div class="flex gap-1.5">
+        <div class="size-3 border border-black bg-red-500"></div>
+        <div class="size-3 border border-black bg-yellow-400"></div>
+        <div class="size-3 border border-black bg-green-400"></div>
       </div>
     </div>
 
     <!-- Terminal Output Area -->
-    <div
-      ref="terminalContainer"
-      class="flex-1 p-4 overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-cyan-500/30 scrollbar-track-transparent relative"
-    >
+    <div ref="terminalContainer" class="flex-1 p-4 overflow-y-auto space-y-2 relative">
       <!-- Simulated Digital Rain Code -->
       <div
         v-if="matrixActive"
-        class="absolute inset-0 bg-slate-950/95 flex items-center justify-center overflow-hidden text-cyan-500 text-[10px] leading-tight select-none"
+        class="absolute inset-0 bg-slate-950 flex items-center justify-center overflow-hidden text-cyan-400 text-[10px] leading-tight select-none"
       >
         <div
-          class="grid grid-cols-6 gap-2 w-full h-full p-2 select-none opacity-80 animate-pulse font-mono"
+          class="grid grid-cols-6 gap-2 w-full h-full p-2 select-none opacity-80 animate-pulse font-mono font-bold"
         >
           <div v-for="i in 18" :key="i" class="flex flex-col text-center">
             <span
@@ -228,13 +224,13 @@ onMounted(() => {
       <div
         v-for="(log, index) in logs"
         :key="index"
-        class="leading-relaxed whitespace-pre-wrap break-all"
+        class="leading-relaxed whitespace-pre-wrap break-all font-bold"
       >
         <template v-if="log.type === 'input'">
-          <span class="text-cyan-500 font-bold">guest@dewan</span>
-          <span class="text-slate-500">:</span>
-          <span class="text-emerald-400 font-bold">~#</span>
-          <span class="text-white font-medium ml-1.5">{{
+          <span class="text-yellow-400 font-black">guest@dewan</span>
+          <span class="text-slate-400">:</span>
+          <span class="text-green-400 font-black">~#</span>
+          <span class="text-white font-black ml-1.5">{{
             log.text.replace('guest@dewan:~# ', '')
           }}</span>
         </template>
@@ -242,8 +238,8 @@ onMounted(() => {
           <span
             :class="{
               'text-cyan-400': log.type === 'output',
-              'text-red-400 font-bold': log.type === 'error',
-              'text-emerald-300 font-bold': log.type === 'success',
+              'text-red-400 font-black': log.type === 'error',
+              'text-yellow-400 font-black': log.type === 'success',
             }"
           >
             {{ log.text }}
@@ -254,22 +250,22 @@ onMounted(() => {
 
     <!-- Terminal Command Input Bar -->
     <form
-      class="border-t border-border/40 p-3.5 flex items-center gap-2 bg-slate-900/60"
+      class="border-t-3 border-black dark:border-white p-3 flex items-center gap-2 bg-slate-900 font-bold"
       @submit="handleCommand"
     >
-      <span class="text-cyan-500 font-bold select-none">$</span>
+      <span class="text-yellow-400 font-black select-none">$</span>
       <input
         v-model="commandInput"
         type="text"
         placeholder="Type command... (try 'neofetch', 'coffee')"
-        class="flex-1 bg-transparent border-0 text-white outline-none focus:ring-0 p-0 text-xs font-mono placeholder:text-cyan-900/80"
+        class="flex-1 bg-transparent border-0 text-white outline-none focus:ring-0 p-0 text-xs font-mono font-bold placeholder:text-slate-500"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
         @keydown="playTick()"
       />
-      <span class="blink-cursor select-none text-cyan-400"></span>
+      <span class="blink-cursor select-none text-yellow-400"></span>
     </form>
   </div>
 </template>

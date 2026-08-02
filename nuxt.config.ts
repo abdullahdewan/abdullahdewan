@@ -16,6 +16,14 @@ export default defineNuxtConfig({
     },
   },
 
+  features: {
+    inlineStyles: true,
+  },
+
+  experimental: {
+    payloadExtraction: false,
+  },
+
   routeRules: {
     '/api/**': { cors: true },
     '/resume': { prerender: true },

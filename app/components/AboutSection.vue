@@ -22,7 +22,7 @@ onMounted(() => {
   cpuInterval = setInterval(() => {
     // Generate minor random fluctuations in CPU loads
     cpuLoads.value = cpuLoads.value.map((load) => {
-      const change = Math.floor(Math.random() * 21) - 10; // -10 to +10
+      const change = Math.floor(Math.random() * 21) - 10;
       return Math.max(8, Math.min(100, load + change));
     });
 
@@ -53,7 +53,6 @@ const triggerScan = () => {
   systemStatus.value = 'SCANNING';
   scanProgress.value = 0;
 
-  // Play scanning hum feedback
   playScan();
   const scanSoundInterval = setInterval(() => {
     if (!isScanning.value) {
@@ -80,30 +79,33 @@ const triggerScan = () => {
 
 <template>
   <div class="space-y-6">
-    <div class="border-b border-border/60 pb-4">
+    <div class="border-b-3 border-black dark:border-white pb-4">
       <h2
-        class="text-lg font-bold font-heading tracking-tight flex items-center gap-2 text-foreground"
+        class="text-lg font-black font-mono tracking-tight flex items-center gap-2 text-foreground uppercase"
       >
-        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <span class="w-3 h-5 bg-primary border border-black dark:border-white"></span>
         OPERATOR_PROFILE.md
       </h2>
       <p
-        class="text-[10px] text-muted-foreground uppercase font-mono mt-1 flex flex-wrap items-center gap-1.5"
+        class="text-[10px] text-foreground font-mono font-bold uppercase mt-1 flex flex-wrap items-center gap-2"
       >
         <span>STATUS:</span>
         <span
-          class="font-bold transition-colors"
+          class="font-black px-2 py-0.5 border border-black dark:border-white"
           :class="{
-            'text-primary': systemStatus === 'ONLINE',
-            'text-amber-500 animate-pulse': systemStatus === 'SCANNING',
-            'text-emerald-400': systemStatus === 'OPTIMIZED',
+            'bg-primary text-primary-foreground': systemStatus === 'ONLINE',
+            'bg-amber-400 text-black animate-pulse': systemStatus === 'SCANNING',
+            'bg-emerald-400 text-black': systemStatus === 'OPTIMIZED',
           }"
         >
           {{ systemStatus }}
         </span>
-        <span class="text-border">|</span>
+        <span class="text-black dark:text-white font-black">|</span>
         <span>CLEARANCE:</span>
-        <span class="text-foreground font-bold">GUEST_ACCESS</span>
+        <span
+          class="text-foreground font-black bg-muted px-2 py-0.5 border border-black dark:border-white"
+          >GUEST_ACCESS</span
+        >
       </p>
     </div>
 
@@ -111,27 +113,16 @@ const triggerScan = () => {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
         <!-- HUD Diagnostics Panel -->
         <div
-          class="border border-border bg-card/45 backdrop-blur-md p-4 rounded-xl font-mono text-[10px] leading-relaxed select-none overflow-hidden col-span-1 shadow-inner relative group"
+          class="border-3 border-black dark:border-white bg-card p-4 font-mono text-[10px] leading-relaxed select-none col-span-1 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06b6d4] relative"
         >
-          <!-- HUD Corner decors -->
-          <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/60"></div>
-          <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary/60"></div>
-          <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary/60"></div>
-          <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/60"></div>
-
-          <!-- Holographic Display Box -->
+          <!-- Display Box -->
           <div
-            class="w-full aspect-square bg-muted/30 dark:bg-slate-950 rounded-lg border border-border relative overflow-hidden flex flex-col items-center justify-center p-3 mb-3"
+            class="w-full aspect-square bg-slate-950 text-white border-2 border-black dark:border-white relative overflow-hidden flex flex-col items-center justify-center p-3 mb-3 shadow-[2px_2px_0px_0px_#000]"
           >
-            <div
-              class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.12)_0%,transparent_70%)]"
-            ></div>
-            <div class="scanline"></div>
-
             <!-- Scanning Bar overlay -->
             <div
               v-if="isScanning"
-              class="absolute top-0 left-0 right-0 h-0.5 bg-amber-500 shadow-[0_0_10px_#f59e0b] opacity-80"
+              class="absolute top-0 left-0 right-0 h-1 bg-amber-400 border-b border-black"
               :style="`transform: translateY(${scanProgress * 2.2}px)`"
             ></div>
 
@@ -139,78 +130,76 @@ const triggerScan = () => {
             <template v-if="currentView === 'radar'">
               <!-- Tech HUD Circle -->
               <div
-                class="w-24 h-24 rounded-full border border-dashed border-primary/40 flex items-center justify-center animate-[spin_30s_linear_infinite] relative"
+                class="w-24 h-24 rounded-none border-2 border-cyan-400 flex items-center justify-center animate-[spin_30s_linear_infinite] relative"
               >
                 <div
-                  class="w-20 h-20 rounded-full border border-primary/30 flex items-center justify-center"
+                  class="w-20 h-20 rounded-none border-2 border-yellow-400 flex items-center justify-center"
                 >
                   <div
-                    class="w-16 h-16 rounded-full border-2 border-dotted border-primary/20 flex items-center justify-center"
+                    class="w-16 h-16 rounded-none border-2 border-pink-500 flex items-center justify-center"
                   ></div>
                 </div>
               </div>
 
               <!-- Terminal Operator Code overlay -->
-              <div class="absolute text-[8px] text-primary/70 font-mono top-2 left-2">
+              <div class="absolute text-[8px] text-cyan-400 font-black top-2 left-2">
                 LOC: DHAKA_BD
               </div>
-              <div class="absolute text-[8px] text-primary/70 font-mono bottom-2 right-2">
+              <div class="absolute text-[8px] text-yellow-400 font-black bottom-2 right-2">
                 SYS: {{ systemStatus }}
               </div>
 
               <div class="absolute text-center mt-1 z-10">
-                <TerminalIcon class="size-5 text-primary mx-auto animate-pulse" />
-                <div class="text-[9px] uppercase font-bold tracking-wider text-primary mt-1">
+                <TerminalIcon class="size-5 text-yellow-400 mx-auto animate-pulse" />
+                <div class="text-[9px] uppercase font-black tracking-wider text-cyan-400 mt-1">
                   DEV_CORE
                 </div>
               </div>
             </template>
 
-            <!-- View 2: CPU Temperature Core Load -->
+            <!-- View 2: CPU Load Core -->
             <template v-else-if="currentView === 'cpu'">
               <div class="w-full h-full flex flex-col justify-between pt-1">
                 <div
-                  class="text-[8px] text-primary/80 uppercase tracking-widest border-b border-border/40 pb-1 mb-1 flex items-center justify-between"
+                  class="text-[8px] text-yellow-400 font-black uppercase tracking-widest border-b border-white/20 pb-1 mb-1 flex items-center justify-between"
                 >
                   <span>CORE LOAD METRICS</span>
-                  <span class="text-emerald-400 animate-pulse">● LIVE</span>
+                  <span class="text-emerald-400 font-black">● LIVE</span>
                 </div>
-                <div class="grid grid-cols-4 gap-2 flex-1 items-end pb-1.5 pt-1">
+                <div class="grid grid-cols-4 gap-1.5 flex-1 items-end pb-1.5 pt-1">
                   <div
                     v-for="(load, index) in cpuLoads.slice(0, 4)"
                     :key="index"
                     class="flex flex-col items-center"
                   >
-                    <!-- Progress track -->
                     <div
-                      class="w-2.5 h-16 bg-muted/70 dark:bg-slate-900 border border-border/60 rounded-sm relative overflow-hidden flex flex-col justify-end"
+                      class="w-3 h-16 bg-slate-900 border border-white/40 rounded-none relative overflow-hidden flex flex-col justify-end"
                     >
                       <div
-                        class="w-full bg-primary transition-all duration-300"
+                        class="w-full bg-cyan-400 border-t border-black transition-all duration-300"
                         :style="`height: ${load}%`"
                       ></div>
                     </div>
-                    <span class="text-[7px] text-muted-foreground mt-1">C0{{ index + 1 }}</span>
+                    <span class="text-[7px] text-slate-300 font-bold mt-1">C0{{ index + 1 }}</span>
                   </div>
                   <div
                     v-for="(load, index) in cpuLoads.slice(4, 8)"
                     :key="index"
                     class="flex flex-col items-center"
                   >
-                    <!-- Progress track -->
                     <div
-                      class="w-2.5 h-16 bg-muted/70 dark:bg-slate-900 border border-border/60 rounded-sm relative overflow-hidden flex flex-col justify-end"
+                      class="w-3 h-16 bg-slate-900 border border-white/40 rounded-none relative overflow-hidden flex flex-col justify-end"
                     >
                       <div
-                        class="w-full bg-accent transition-all duration-300"
+                        class="w-full bg-yellow-400 border-t border-black transition-all duration-300"
                         :style="`height: ${load}%`"
                       ></div>
                     </div>
-                    <span class="text-[7px] text-muted-foreground mt-1">C0{{ index + 5 }}</span>
+                    <span class="text-[7px] text-slate-300 font-bold mt-1">C0{{ index + 5 }}</span>
                   </div>
                 </div>
                 <div
-                  class="text-[7px] text-muted-foreground flex justify-between border-t border-border/40 pt-1"
+                  class="text-[7px] text-slate-300 font-bold flex justify-between border-t border-white/20 pt-1"
                 >
                   <span>AVG: {{ Math.round(cpuLoads.reduce((a, b) => a + b, 0) / 8) }}%</span>
                   <span>CLOCK: 4.20 GHz</span>
@@ -222,24 +211,24 @@ const triggerScan = () => {
             <template v-else-if="currentView === 'log'">
               <div class="w-full h-full flex flex-col justify-between pt-1">
                 <div
-                  class="text-[8px] text-primary uppercase tracking-widest border-b border-border/40 pb-1 mb-1"
+                  class="text-[8px] text-cyan-400 font-black uppercase tracking-widest border-b border-white/20 pb-1 mb-1"
                 >
                   SYS TELEMETRY STREAM
                 </div>
                 <div
-                  class="flex-1 flex flex-col gap-1 overflow-hidden p-2 rounded-lg bg-slate-950/90 text-cyan-400 select-none font-mono text-[7px] leading-tight border border-cyan-950/30"
+                  class="flex-1 flex flex-col gap-1 overflow-hidden p-1.5 bg-black text-cyan-400 select-none font-mono text-[7px] leading-tight border border-white/20"
                 >
                   <div
                     v-for="(log, idx) in consoleLogs"
                     :key="idx"
-                    class="truncate font-bold tracking-tight text-[7px]"
-                    :class="idx === 0 ? 'text-primary' : 'text-cyan-400/70'"
+                    class="truncate font-black tracking-tight text-[7px]"
+                    :class="idx === 0 ? 'text-yellow-400' : 'text-cyan-400'"
                   >
                     &gt; {{ log }}
                   </div>
                 </div>
                 <div
-                  class="text-[7px] text-muted-foreground border-t border-border/40 pt-1.5 flex justify-between"
+                  class="text-[7px] text-slate-300 font-bold border-t border-white/20 pt-1 flex justify-between"
                 >
                   <span>PACKETS: IN/OUT</span>
                   <span class="tabular-nums">SYNC: 100%</span>
@@ -249,14 +238,14 @@ const triggerScan = () => {
           </div>
 
           <!-- Interaction HUD Controls -->
-          <div class="flex gap-1.5 mb-3.5">
+          <div class="flex gap-1.5 mb-3">
             <button
               :aria-pressed="currentView === 'radar'"
-              class="flex-1 py-1.5 px-2 border transition-all rounded-md text-[8px] font-bold text-center tracking-wider cursor-pointer uppercase flex items-center justify-center gap-1"
+              class="flex-1 py-1.5 px-2 border-2 border-black dark:border-white font-black text-center tracking-wider cursor-pointer uppercase flex items-center justify-center gap-1 text-[8px] transition-all"
               :class="
                 currentView === 'radar'
-                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_8px_var(--glow-color)]'
-                  : 'border-border text-muted-foreground bg-muted/20 hover:bg-muted/60 hover:text-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] -translate-y-0.5'
+                  : 'bg-card text-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#06b6d4] hover:bg-muted'
               "
               @click="
                 currentView = 'radar';
@@ -264,15 +253,15 @@ const triggerScan = () => {
               "
               @mouseenter="playTick()"
             >
-              <Activity class="size-2.5" />
+              <Activity class="size-3" />
               Radar
             </button>
             <button
-              class="flex-1 py-1.5 px-2 border transition-all rounded-md text-[8px] font-bold text-center tracking-wider cursor-pointer uppercase flex items-center justify-center gap-1"
+              class="flex-1 py-1.5 px-2 border-2 border-black dark:border-white font-black text-center tracking-wider cursor-pointer uppercase flex items-center justify-center gap-1 text-[8px] transition-all"
               :class="
                 currentView === 'cpu'
-                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_8px_var(--glow-color)]'
-                  : 'border-border text-muted-foreground bg-muted/20 hover:bg-muted/60 hover:text-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] -translate-y-0.5'
+                  : 'bg-card text-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#06b6d4] hover:bg-muted'
               "
               @click="
                 currentView = 'cpu';
@@ -280,15 +269,15 @@ const triggerScan = () => {
               "
               @mouseenter="playTick()"
             >
-              <Cpu class="size-2.5" />
+              <Cpu class="size-3" />
               Cores
             </button>
             <button
-              class="flex-1 py-1.5 px-2 border transition-all rounded-md text-[8px] font-bold text-center tracking-wider cursor-pointer uppercase flex items-center justify-center gap-1"
+              class="flex-1 py-1.5 px-2 border-2 border-black dark:border-white font-black text-center tracking-wider cursor-pointer uppercase flex items-center justify-center gap-1 text-[8px] transition-all"
               :class="
                 currentView === 'log'
-                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_8px_var(--glow-color)]'
-                  : 'border-border text-muted-foreground bg-muted/20 hover:bg-muted/60 hover:text-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] -translate-y-0.5'
+                  : 'bg-card text-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#06b6d4] hover:bg-muted'
               "
               @click="
                 currentView = 'log';
@@ -296,41 +285,45 @@ const triggerScan = () => {
               "
               @mouseenter="playTick()"
             >
-              <ShieldCheck class="size-2.5" />
+              <ShieldCheck class="size-3" />
               Logs
             </button>
           </div>
 
           <button
-            class="w-full py-2 bg-primary/10 border border-primary/40 hover:border-primary/80 hover:bg-primary/20 transition-all rounded-lg text-[9px] font-bold text-center tracking-widest cursor-pointer uppercase flex items-center justify-center gap-1.5"
+            class="w-full py-2 bg-secondary text-secondary-foreground border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#ffffff] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none text-[9px] font-black text-center tracking-widest cursor-pointer uppercase flex items-center justify-center gap-1.5 transition-all"
             :disabled="isScanning"
             @click="triggerScan"
             @mouseenter="playTick()"
           >
-            <RefreshCw class="size-3" :class="isScanning ? 'animate-spin' : ''" />
+            <RefreshCw class="size-3.5" :class="isScanning ? 'animate-spin' : ''" />
             {{ isScanning ? 'RUNNING SECURITY DIAGNOSTIC...' : 'ENGAGE SECURITY SCAN' }}
           </button>
 
           <div
-            class="space-y-1.5 border-t border-border/60 pt-3.5 mt-3.5 text-[9px] sm:text-[10px]"
+            class="space-y-1.5 border-t-2 border-black dark:border-white pt-3 mt-3 text-[9px] font-mono font-bold"
           >
             <div class="flex justify-between">
               <span class="text-muted-foreground">OPERATOR:</span>
-              <span class="font-bold text-foreground">A_DEWAN</span>
+              <span class="font-black text-foreground">A_DEWAN</span>
             </div>
             <div class="flex justify-between">
               <span class="text-muted-foreground">NODE_IP:</span>
-              <span class="text-primary font-bold">127.0.0.1</span>
+              <span
+                class="text-foreground font-black bg-primary text-primary-foreground px-1 border border-black dark:border-white"
+                >127.0.0.1</span
+              >
             </div>
             <div class="flex justify-between">
               <span class="text-muted-foreground">UPLINK:</span>
-              <span class="text-green-500 dark:text-green-400 font-bold animate-pulse"
+              <span
+                class="bg-green-400 text-black px-1 border border-black font-black animate-pulse"
                 >ACTIVE_TUNNEL</span
               >
             </div>
             <div class="flex justify-between">
               <span class="text-muted-foreground">CORES:</span>
-              <span class="text-foreground">8x_VIRTUAL</span>
+              <span class="text-foreground font-black">8x_VIRTUAL</span>
             </div>
           </div>
         </div>
@@ -339,70 +332,93 @@ const triggerScan = () => {
         <div class="col-span-1 md:col-span-2 space-y-5">
           <div class="space-y-2">
             <h3
-              class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2 font-mono"
+              class="text-xs font-black uppercase tracking-wider text-foreground flex items-center gap-2 font-mono"
             >
-              <span class="inline-block w-1.5 h-3 bg-primary rounded-sm"></span>
+              <span
+                class="inline-block w-3 h-3 bg-primary border border-black dark:border-white"
+              ></span>
               BIO_READOUT
             </h3>
-            <p class="text-sm leading-relaxed text-foreground/90 font-sans">
+            <p
+              class="text-sm leading-relaxed text-foreground font-sans bg-card p-4 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#06b6d4] font-medium"
+            >
               Mainly a full-stack developer with a deep interest and expertise in backend systems.
               Initiated commercial operations in the year 2021. Designed and deployed multiple
               high-performance database architectures, server nodes, and terminal dashboards.
             </p>
           </div>
 
-          <div class="border-t border-dashed border-border pt-4 space-y-3 font-mono text-xs">
+          <div class="border-t-2 border-black dark:border-white pt-4 space-y-3 font-mono text-xs">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="bg-card/40 p-2.5 rounded-lg border border-border">
-                <span class="text-muted-foreground uppercase text-[9px] block mb-0.5">Role:</span>
-                <span class="font-bold text-foreground">Backend & Full-Stack Engineer</span>
+              <div
+                class="bg-yellow-100 dark:bg-yellow-950/60 p-3 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#facc15]"
+              >
+                <span
+                  class="text-black dark:text-yellow-300 font-black uppercase text-[9px] block mb-0.5"
+                  >Role:</span
+                >
+                <span class="font-black text-black dark:text-white text-xs"
+                  >Backend & Full-Stack Engineer</span
+                >
               </div>
-              <div class="bg-card/40 p-2.5 rounded-lg border border-border">
-                <span class="text-muted-foreground uppercase text-[9px] block mb-0.5"
+              <div
+                class="bg-cyan-100 dark:bg-cyan-950/60 p-3 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#06b6d4]"
+              >
+                <span
+                  class="text-black dark:text-cyan-300 font-black uppercase text-[9px] block mb-0.5"
                   >Experience:</span
                 >
-                <span class="font-bold text-foreground"
+                <span class="font-black text-black dark:text-white text-xs"
                   >Since 2021 ({{ new Date().getFullYear() - 2021 }}+ Years)</span
                 >
               </div>
-              <div class="bg-card/40 p-2.5 rounded-lg border border-border">
-                <span class="text-muted-foreground uppercase text-[9px] block mb-0.5"
+              <div
+                class="bg-pink-100 dark:bg-pink-950/60 p-3 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#ec4899]"
+              >
+                <span
+                  class="text-black dark:text-pink-300 font-black uppercase text-[9px] block mb-0.5"
                   >Location:</span
                 >
-                <span class="font-bold text-foreground">Dhaka, Bangladesh</span>
+                <span class="font-black text-black dark:text-white text-xs">Dhaka, Bangladesh</span>
               </div>
-              <div class="bg-card/40 p-2.5 rounded-lg border border-border">
-                <span class="text-muted-foreground uppercase text-[9px] block mb-0.5"
+              <div
+                class="bg-emerald-100 dark:bg-emerald-950/60 p-3 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#10b981]"
+              >
+                <span
+                  class="text-black dark:text-emerald-300 font-black uppercase text-[9px] block mb-0.5"
                   >Primary Status:</span
                 >
-                <span class="font-bold text-green-500 dark:text-green-400 animate-pulse"
+                <span
+                  class="font-black text-emerald-700 dark:text-emerald-300 text-xs animate-pulse"
                   >ACTIVE_FOR_HIRE</span
                 >
               </div>
             </div>
           </div>
 
-          <div class="bg-primary/5 border-l-2 border-primary p-3 rounded-r-lg">
-            <p class="text-xs font-mono text-muted-foreground italic leading-normal">
+          <div
+            class="bg-primary text-primary-foreground border-3 border-black dark:border-white p-4 shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#ffffff]"
+          >
+            <p class="text-xs font-mono font-black italic leading-relaxed">
               "We build clean paths through complex data. In backend, we trust. Security,
               optimization, and maintainability are not choices, they are the baseline
               configuration."
             </p>
           </div>
 
-          <div class="pt-3">
+          <div class="pt-2">
             <a
               href="/resume"
               target="_blank"
-              class="w-full py-3 bg-cyan-500/10 border border-cyan-500/40 hover:border-cyan-500/80 hover:bg-cyan-500/20 text-cyan-400 hover:text-white transition-all rounded-xl text-[10px] font-bold text-center tracking-widest font-mono uppercase flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.08)]"
+              class="w-full py-3.5 bg-secondary text-secondary-foreground border-3 border-black dark:border-white shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#ffffff] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all text-[10px] font-black text-center tracking-widest font-mono uppercase flex items-center justify-center gap-2 cursor-pointer"
               @click="playClick()"
               @mouseenter="playTick()"
             >
               <svg
-                class="size-3.5"
+                class="size-4"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="2.5"
                 viewBox="0 0 24 24"
               >
                 <path
