@@ -43,6 +43,7 @@ I am a **Full-Stack & Backend Systems Architect** with over 3 years of commercia
 ### 🛠️ TECH STACK & SYSTEM CAPABILITIES
 
 #### 💻 Programming Languages
+
 <p align="left">
   <a href="https://www.typescriptlang.org" target="_blank"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" /></a>
@@ -53,6 +54,7 @@ I am a **Full-Stack & Backend Systems Architect** with over 3 years of commercia
 </p>
 
 #### 🗄️ Databases & Backend Architecture
+
 <p align="left">
   <a href="https://www.postgresql.org" target="_blank"><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
   <a href="https://www.mysql.com" target="_blank"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" /></a>
@@ -63,6 +65,7 @@ I am a **Full-Stack & Backend Systems Architect** with over 3 years of commercia
 </p>
 
 #### 🎨 Client Frameworks & Tooling
+
 <p align="left">
   <a href="https://nuxt.com" target="_blank"><img src="https://img.shields.io/badge/Nuxt_3-00DC82?style=for-the-badge&logo=nuxt&logoColor=white" alt="Nuxt 3" /></a>
   <a href="https://vuejs.org" target="_blank"><img src="https://img.shields.io/badge/Vue.js_3-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue.js 3" /></a>
@@ -99,18 +102,21 @@ $ dewan --show-skills
 ### 📡 FEATURED_SYNC_NODES (Featured Projects)
 
 #### 🚆 [traininfo](https://github.com/abdullahdewan/traininfo)
+
 > **Nuxt 3 / Vue 3 / Tailwind v4 / Pinia / Shadcn Vue**
-> 
+>
 > A specialized Bangladesh Railway Timetable and tracking platform with live schedule telemetry, local Dhaka timezone integration, and cached SSR routes.
 
 #### 🎮 [tictactoe](https://github.com/abdullahdewan/tictactoe)
+
 > **Vue 3 / TypeScript / Node.js / Express / Socket.IO / MongoDB / Docker**
-> 
+>
 > A real-time multiplayer Tic-Tac-Toe server and client stack featuring room lobbies, automated win/draw state evaluation, and full containerized Docker deployments.
 
 #### 📝 [renpy-to-md](https://github.com/abdullahdewan/renpy-to-md)
+
 > **Python 3 / Regex AST Parser / Markdown**
-> 
+>
 > A production-ready Python command-line utility to parse complex Ren'Py visual novel scripts (`.rpy` files) and compile branching choices/dialogues into clean Markdown format.
 
 ---
@@ -118,6 +124,7 @@ $ dewan --show-skills
 ### 📄 RESUME // CURRICULUM VITAE
 
 View and print the Neubrutalist interactive CV route at [`/resume`](https://abdullahdewan.com/resume):
+
 - 🖨️ Includes print-friendly PDF export styling with zero shadow artifacts.
 - ⚡ High-contrast layout with skill matrices, work history, and repository telemetry.
 
