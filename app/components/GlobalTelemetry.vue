@@ -116,7 +116,7 @@ const fetchWeather = async (useGeolocation = false) => {
       isDay: data.current.is_day === 1,
     };
   } catch {
-    // Silent catch to prevent DevTools 403/network logs
+    // Silent catch
   }
 };
 
@@ -215,17 +215,16 @@ onMounted(() => {
 
 <template>
   <div
-    class="border-3 border-black dark:border-white bg-card p-4 font-mono text-[10px] leading-relaxed select-none relative shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06b6d4] text-foreground"
+    class="border border-border-dim bg-card/90 backdrop-blur-sm p-3.5 font-mono text-[10px] leading-relaxed select-none rounded-[2px] text-foreground"
   >
     <!-- Header readout ribbon -->
-    <div
-      class="border-b-2 border-black dark:border-white pb-2 mb-3 flex items-center justify-between bg-primary text-primary-foreground p-2 border border-black"
-    >
-      <span class="font-black uppercase flex items-center gap-1.5">
-        <Activity class="size-4 animate-pulse" />
+    <div class="border-b border-border-dim pb-2 mb-3 flex items-center justify-between">
+      <span class="font-bold text-primary uppercase flex items-center gap-1.5 tracking-wider">
+        <Activity class="size-3.5 animate-pulse" />
         GLOBAL EDGE TELEMETRY
       </span>
-      <span class="text-[8px] font-black bg-black text-white px-1.5 py-0.5"
+      <span
+        class="text-[9px] text-muted-foreground border border-border-dim bg-background/50 px-1.5 py-0.5 rounded-[2px]"
         >SYNC: {{ lastUpdated }}</span
       >
     </div>
@@ -233,11 +232,11 @@ onMounted(() => {
     <!-- Telemetry Navigation Tabs -->
     <div class="flex gap-1.5 mb-3">
       <button
-        class="flex-1 py-1.5 px-1 border-2 border-black dark:border-white text-[8px] font-black text-center cursor-pointer uppercase flex items-center justify-center gap-1 transition-all"
+        class="flex-1 py-1 px-1 border text-[9px] font-mono font-medium text-center cursor-pointer uppercase flex items-center justify-center gap-1 rounded-[2px] transition-all"
         :class="
           activeTab === 'weather'
-            ? 'bg-secondary text-secondary-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] -translate-y-0.5'
-            : 'bg-card text-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#06b6d4] hover:bg-muted'
+            ? 'bg-primary/10 border-primary/40 text-primary'
+            : 'bg-background/40 border-border-dim text-muted-foreground hover:text-foreground hover:border-border'
         "
         @click="
           activeTab = 'weather';
@@ -249,11 +248,11 @@ onMounted(() => {
         Weather
       </button>
       <button
-        class="flex-1 py-1.5 px-1 border-2 border-black dark:border-white text-[8px] font-black text-center cursor-pointer uppercase flex items-center justify-center gap-1 transition-all"
+        class="flex-1 py-1 px-1 border text-[9px] font-mono font-medium text-center cursor-pointer uppercase flex items-center justify-center gap-1 rounded-[2px] transition-all"
         :class="
           activeTab === 'crypto'
-            ? 'bg-secondary text-secondary-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] -translate-y-0.5'
-            : 'bg-card text-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#06b6d4] hover:bg-muted'
+            ? 'bg-primary/10 border-primary/40 text-primary'
+            : 'bg-background/40 border-border-dim text-muted-foreground hover:text-foreground hover:border-border'
         "
         @click="
           activeTab = 'crypto';
@@ -265,11 +264,11 @@ onMounted(() => {
         Markets
       </button>
       <button
-        class="flex-1 py-1.5 px-1 border-2 border-black dark:border-white text-[8px] font-black text-center cursor-pointer uppercase flex items-center justify-center gap-1 transition-all"
+        class="flex-1 py-1 px-1 border text-[9px] font-mono font-medium text-center cursor-pointer uppercase flex items-center justify-center gap-1 rounded-[2px] transition-all"
         :class="
           activeTab === 'network'
-            ? 'bg-secondary text-secondary-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] -translate-y-0.5'
-            : 'bg-card text-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#06b6d4] hover:bg-muted'
+            ? 'bg-primary/10 border-primary/40 text-primary'
+            : 'bg-background/40 border-border-dim text-muted-foreground hover:text-foreground hover:border-border'
         "
         @click="
           activeTab = 'network';
@@ -284,65 +283,59 @@ onMounted(() => {
 
     <!-- Display Screens -->
     <div
-      class="bg-muted p-3 border-2 border-black dark:border-white min-h-[110px] flex flex-col justify-between shadow-[2px_2px_0px_0px_#000]"
+      class="bg-background/60 p-3 border border-border-dim rounded-[2px] min-h-[110px] flex flex-col justify-between"
     >
       <!-- SCREEN 1: WEATHER -->
       <div v-if="activeTab === 'weather'" class="flex-1 flex flex-col justify-between">
-        <div
-          class="flex justify-between items-start border-b-2 border-black dark:border-white pb-1.5 mb-1.5"
-        >
+        <div class="flex justify-between items-start border-b border-border-dim/60 pb-1.5 mb-1.5">
           <div>
-            <span class="text-[8px] text-muted-foreground block font-bold"
-              >GEOGRAPHIC NODE UPLINK:</span
-            >
-            <span class="font-black text-foreground text-xs uppercase">{{ weather.desc }}</span>
+            <span class="text-[8px] text-muted-foreground block">GEOGRAPHIC NODE UPLINK:</span>
+            <span class="font-bold text-foreground text-xs uppercase">{{ weather.desc }}</span>
           </div>
           <div
-            class="flex items-center gap-1 font-black bg-primary text-primary-foreground px-2 py-0.5 border border-black"
+            class="flex items-center gap-1 font-mono text-primary bg-primary/10 border border-primary/30 px-1.5 py-0.5 rounded-[2px]"
           >
-            <Sun v-if="weather.isDay" class="size-3.5 text-black animate-spin-slow" />
-            <Cloud v-else class="size-3.5 text-black" />
-            <span class="text-[9px] font-black">{{ weather.temp }}°C</span>
+            <Sun v-if="weather.isDay" class="size-3 text-primary animate-spin-slow" />
+            <Cloud v-else class="size-3 text-primary" />
+            <span class="text-[9px] font-bold">{{ weather.temp }}°C</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-2 py-1 items-center font-bold">
+        <div class="grid grid-cols-3 gap-2 py-1 items-center">
           <div class="flex items-center gap-1.5">
-            <Thermometer class="size-3.5 text-primary" />
+            <Thermometer class="size-3 text-primary" />
             <div>
               <span class="text-[7px] text-muted-foreground block">FEELS:</span>
-              <span class="font-black text-foreground">{{ weather.feel }}°C</span>
+              <span class="font-bold text-foreground">{{ weather.feel }}°C</span>
             </div>
           </div>
           <div class="flex items-center gap-1.5">
-            <CloudRain class="size-3.5 text-secondary" />
+            <CloudRain class="size-3 text-cyan-dim" />
             <div>
               <span class="text-[7px] text-muted-foreground block">HUMIDITY:</span>
-              <span class="font-black text-foreground">{{ weather.humidity }}%</span>
+              <span class="font-bold text-foreground">{{ weather.humidity }}%</span>
             </div>
           </div>
           <div class="flex items-center gap-1.5">
-            <Wind class="size-3.5 text-accent" />
+            <Wind class="size-3 text-primary" />
             <div>
               <span class="text-[7px] text-muted-foreground block">WIND SPEED:</span>
-              <span class="font-black text-foreground">{{ weather.windSpeed }} km/h</span>
+              <span class="font-bold text-foreground">{{ weather.windSpeed }} km/h</span>
             </div>
           </div>
         </div>
 
-        <div
-          class="flex items-center justify-between border-t-2 border-black dark:border-white pt-1.5 mt-1"
-        >
-          <span class="text-[7px] text-foreground font-black flex items-center gap-0.5">
-            <Compass class="size-3" />
-            WIND ANGLE: {{ weather.windDir }}°
+        <div class="flex items-center justify-between border-t border-border-dim/60 pt-1.5 mt-1">
+          <span class="text-[8px] text-muted-foreground flex items-center gap-1">
+            <Compass class="size-3 text-primary" />
+            WIND ANGLE: <span class="text-foreground">{{ weather.windDir }}°</span>
           </span>
           <svg
-            class="size-4 text-foreground transition-transform duration-1000"
+            class="size-3.5 text-primary transition-transform duration-1000"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2.5"
+            stroke-width="2"
             :style="`transform: rotate(${weather.windDir}deg)`"
           >
             <line x1="12" y1="22" x2="12" y2="2" />
@@ -353,27 +346,24 @@ onMounted(() => {
 
       <!-- SCREEN 2: MARKETS -->
       <div v-else-if="activeTab === 'crypto'" class="flex-1 flex flex-col justify-between">
-        <div
-          class="text-[8px] text-foreground font-black border-b-2 border-black dark:border-white pb-1 mb-1.5"
-        >
+        <div class="text-[8px] text-muted-foreground border-b border-border-dim/60 pb-1 mb-1.5">
           LIVE INDEX TICKERS // FROM BINANCE EDGE API
         </div>
         <div class="space-y-1.5">
           <div
             v-for="token in tokens"
             :key="token.symbol"
-            class="flex justify-between items-center text-[9px] font-bold"
+            class="flex justify-between items-center text-[9px]"
           >
             <div class="flex items-center gap-1.5">
-              <span class="font-black bg-black text-white px-1.5 py-0.2 text-[8px]">{{
-                token.symbol
-              }}</span>
-              <span class="text-[7px] text-muted-foreground uppercase font-bold">{{
-                token.name
-              }}</span>
+              <span
+                class="font-bold text-primary border border-border-dim bg-background/80 px-1 py-0.2 text-[8px] rounded-[2px]"
+                >{{ token.symbol }}</span
+              >
+              <span class="text-[8px] text-muted-foreground uppercase">{{ token.name }}</span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="font-mono text-foreground font-black tabular-nums">
+              <span class="font-mono text-foreground font-bold tabular-nums">
                 ${{
                   token.price.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
@@ -382,59 +372,59 @@ onMounted(() => {
                 }}
               </span>
               <span
-                class="font-mono font-black flex items-center gap-0.5 px-1 border border-black"
-                :class="token.change >= 0 ? 'bg-green-400 text-black' : 'bg-red-400 text-black'"
+                class="font-mono text-[8px] flex items-center gap-0.5 px-1 py-0.2 border rounded-[2px]"
+                :class="
+                  token.change >= 0
+                    ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-400'
+                    : 'bg-rose-950/50 border-rose-500/40 text-rose-400'
+                "
               >
-                <TrendingUp v-if="token.change >= 0" class="size-2.5" />
-                <TrendingDown v-else class="size-2.5" />
+                <TrendingUp v-if="token.change >= 0" class="size-2" />
+                <TrendingDown v-else class="size-2" />
                 {{ token.change >= 0 ? '+' : '' }}{{ token.change }}%
               </span>
             </div>
           </div>
         </div>
         <div
-          class="text-[7px] text-foreground font-black border-t-2 border-black dark:border-white pt-1 mt-1 flex justify-between"
+          class="text-[8px] text-muted-foreground border-t border-border-dim/60 pt-1 mt-1 flex justify-between"
         >
-          <span>CURRENCY: USD</span>
-          <span>MARKET RATE: NOMINAL</span>
+          <span>CURRENCY: <span class="text-foreground">USD</span></span>
+          <span>STATUS: <span class="text-emerald-400">NOMINAL</span></span>
         </div>
       </div>
 
       <!-- SCREEN 3: NETWORK DIAGNOSTICS -->
       <div v-else-if="activeTab === 'network'" class="flex-1 flex flex-col justify-between">
-        <div
-          class="text-[8px] text-foreground font-black border-b-2 border-black dark:border-white pb-1 mb-1.5"
-        >
+        <div class="text-[8px] text-muted-foreground border-b border-border-dim/60 pb-1 mb-1.5">
           LOCAL & REMOTE GATEWAY LATENCIES
         </div>
-        <div class="space-y-2">
+        <div class="space-y-1.5">
           <div
             v-for="node in pings"
             :key="node.name"
-            class="flex justify-between items-center text-[9px] font-bold"
+            class="flex justify-between items-center text-[9px]"
           >
-            <span class="font-black text-foreground">{{ node.name }}</span>
+            <span class="text-foreground">{{ node.name }}</span>
             <div class="flex items-center gap-1.5 font-mono">
               <span
                 :class="
                   node.ok
-                    ? 'bg-green-400 text-black border border-black px-1 font-black animate-pulse'
-                    : 'bg-red-400 text-black border border-black px-1 font-black'
+                    ? 'bg-emerald-950/50 border border-emerald-500/40 text-emerald-400 px-1 text-[8px] rounded-[2px]'
+                    : 'bg-rose-950/50 border border-rose-500/40 text-rose-400 px-1 text-[8px] rounded-[2px]'
                 "
               >
                 {{ node.ok ? 'ONLINE' : 'FAILED' }}
               </span>
-              <span v-if="node.ok" class="text-foreground font-bold">({{ node.ms }}ms)</span>
+              <span v-if="node.ok" class="text-muted-foreground font-mono">({{ node.ms }}ms)</span>
             </div>
           </div>
         </div>
         <div
-          class="text-[7px] text-foreground font-black border-t-2 border-black dark:border-white pt-1 mt-1 flex justify-between"
+          class="text-[8px] text-muted-foreground border-t border-border-dim/60 pt-1 mt-1 flex justify-between"
         >
-          <span>PORT: HTTPS/443</span>
-          <span
-            class="bg-primary text-primary-foreground px-1 border border-black font-black flex items-center gap-0.5"
-          >
+          <span>PORT: <span class="text-foreground">HTTPS/443</span></span>
+          <span class="text-primary flex items-center gap-1">
             <CheckCircle2 class="size-2.5" />
             SECURE
           </span>
@@ -443,18 +433,15 @@ onMounted(() => {
     </div>
 
     <!-- Action Trigger button -->
-    <div class="pt-3">
+    <div class="pt-2.5">
       <button
-        class="w-full py-2.5 bg-primary text-primary-foreground border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all text-[9px] font-black text-center tracking-widest cursor-pointer uppercase flex items-center justify-center gap-1.5"
+        class="w-full py-1.5 bg-primary/10 border border-primary/40 text-primary hover:bg-primary/20 transition-all text-[9px] font-mono font-bold tracking-widest cursor-pointer uppercase flex items-center justify-center gap-1.5 rounded-[2px]"
         :disabled="isLoading"
         @click="refreshTelemetry"
         @mouseenter="playTick()"
       >
-        <RefreshCw
-          class="size-3 text-primary-foreground"
-          :class="isLoading ? 'animate-spin' : ''"
-        />
-        {{ isLoading ? 'FETCHING TELEMETRY DATA...' : 'REFRESH EDGE DATA' }}
+        <RefreshCw class="size-2.5 text-primary" :class="isLoading ? 'animate-spin' : ''" />
+        {{ isLoading ? 'FETCHING TELEMETRY...' : 'REFRESH EDGE DATA' }}
       </button>
     </div>
   </div>

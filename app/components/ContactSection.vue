@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue';
-import { Button } from '~/components/ui/button';
-import { Send, CheckCircle2, Lock, Unlock } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { Send, CheckCircle2, Lock, Unlock, Mail, ShieldCheck } from 'lucide-vue-next';
 
 const senderName = ref('');
 const senderEmail = ref('');
@@ -9,10 +8,10 @@ const message = ref('');
 const turnstileToken = ref('');
 
 const secureMode = ref(false);
-const secretKey = ref('SYS_TEMP_KEY_8X');
+const secretKey = ref('SYS_SECRET_KEY');
 const isSubmitting = ref(false);
-const consoleLogs = ref<string[]>([]);
 const isSuccess = ref(false);
+const errorMessage = ref('');
 
 const turnstileReady = ref(false);
 
@@ -20,26 +19,7 @@ const activateTurnstile = () => {
   if (!turnstileReady.value) turnstileReady.value = true;
 };
 
-const { playClick, playTick, playSuccessLog, playErrorLog } = useAudio();
-const { colorMode } = useTheme();
-
-const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
-
-onUnmounted(() => {
-  activeTimeouts.forEach(clearTimeout);
-});
-
-const logOutput = (text: string, delay: number) => {
-  return new Promise((resolve) => {
-    const timeoutId = setTimeout(() => {
-      consoleLogs.value.push(text);
-      if (secureMode.value) playTick();
-      activeTimeouts.delete(timeoutId);
-      resolve(true);
-    }, delay);
-    activeTimeouts.add(timeoutId);
-  });
-};
+const { playClick, playSuccessLog, playErrorLog } = useAudio();
 
 const encryptMessage = async (plainText: string, keyString: string) => {
   const enc = new TextEncoder();
@@ -82,31 +62,23 @@ const sendTransmission = async (e: Event) => {
   if (!senderName.value || !senderEmail.value || !message.value || !turnstileToken.value) return;
 
   isSubmitting.value = true;
-  consoleLogs.value = [];
   isSuccess.value = false;
-
-  await logOutput('INITIATING TRANSMISSION PROTOCOL...', 200);
+  errorMessage.value = '';
 
   let finalMessage = message.value;
   if (secureMode.value) {
-    await logOutput('GENERATING EPHEMERAL AES KEY FROM SHARED SECRET...', 300);
-    await logOutput('ENCRYPTING PLAIN TEXT PACKETS WITH AES-256-GCM...', 400);
     try {
       finalMessage = await encryptMessage(message.value, secretKey.value);
-      await logOutput('CIPHERTEXT PACKET ENCODED SUCCESS.', 200);
-    } catch (err) {
-      console.warn(err);
-      await logOutput('CRYPTOGRAPHY ERROR: ENCRYPTION FAILED.', 200);
+    } catch {
+      errorMessage.value = 'Browser cryptographic encryption failed.';
       isSubmitting.value = false;
       playErrorLog();
       return;
     }
   }
 
-  await logOutput('ESTABLISHING SECURE TUNNEL TO API ENDPOINT...', 300);
-
   try {
-    const res = await $fetch('/api/contact', {
+    const res = await $fetch<{ success: boolean }>('/api/contact', {
       method: 'POST',
       body: {
         senderName: senderName.value,
@@ -119,213 +91,188 @@ const sendTransmission = async (e: Event) => {
     });
 
     if (res.success) {
-      await logOutput('HANDSHAKE COMPLETED. PAYLOAD DATA DELIVERED...', 400);
-      await logOutput(`SENDER_ID: ${senderName.value.toUpperCase()} <${senderEmail.value}>`, 200);
-      await logOutput('STATUS 200: TRANSMISSION SUCCESSFUL!', 300);
       isSuccess.value = true;
       playSuccessLog();
+      senderName.value = '';
+      senderEmail.value = '';
+      message.value = '';
+      turnstileToken.value = '';
     } else {
-      await logOutput('STATUS 500: TRANSMISSION FAILED!', 400);
+      errorMessage.value = 'Failed to deliver transmission. Please try again.';
       playErrorLog();
     }
-  } catch (err) {
-    console.warn(err);
-    await logOutput('STATUS 500: TRANSMISSION FAILED.', 400);
+  } catch {
+    errorMessage.value = 'Transmission service error. Please try again.';
     playErrorLog();
   } finally {
     isSubmitting.value = false;
-  }
-
-  if (isSuccess.value) {
-    senderName.value = '';
-    senderEmail.value = '';
-    message.value = '';
-    turnstileToken.value = '';
   }
 };
 </script>
 
 <template>
-  <div class="space-y-6 font-sans">
-    <div class="border-b-3 border-black dark:border-white pb-4">
-      <h2
-        class="text-lg font-black font-mono tracking-tight flex items-center gap-2 text-foreground uppercase"
-      >
-        <span class="w-3 h-5 bg-primary border border-black dark:border-white"></span>
-        TRANSMIT_PACKET.sh
-      </h2>
-      <p class="text-xs text-foreground font-mono font-bold uppercase mt-1">
-        Establish encrypted communication tunnel directly to operators terminal
-      </p>
-    </div>
-
-    <div class="pt-2">
-      <!-- Form Deck -->
-      <form v-if="!isSuccess && !isSubmitting" class="space-y-5" @submit="sendTransmission">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="space-y-2">
-            <label
-              for="sender_name"
-              class="text-[10px] uppercase text-foreground font-mono font-black tracking-wider block"
-              >SENDER_NAME:</label
-            >
-            <input
-              id="sender_name"
-              v-model="senderName"
-              required
-              type="text"
-              placeholder="e.g. ADMIN_USER"
-              class="w-full bg-card border-3 border-black dark:border-white px-3.5 py-2.5 text-xs font-mono font-bold text-foreground focus:outline-none shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] focus:shadow-[5px_5px_0px_0px_#000000] transition-all"
-              @focusin="activateTurnstile"
-            />
-          </div>
-          <div class="space-y-2">
-            <label
-              for="sender_email"
-              class="text-[10px] uppercase text-foreground font-mono font-black tracking-wider block"
-              >SENDER_EMAIL:</label
-            >
-            <input
-              id="sender_email"
-              v-model="senderEmail"
-              required
-              type="email"
-              placeholder="e.g. hello@abdullahdewan.com"
-              class="w-full bg-card border-3 border-black dark:border-white px-3.5 py-2.5 text-xs font-mono font-bold text-foreground focus:outline-none shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] focus:shadow-[5px_5px_0px_0px_#000000] transition-all"
-              @focusin="activateTurnstile"
-            />
-          </div>
+  <div class="space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Contact Info / Direct Channels (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="space-y-3">
+          <h4 class="text-lg font-bold text-foreground font-heading">
+            Let's build something together.
+          </h4>
+          <p class="text-xs md:text-sm text-muted-foreground leading-relaxed">
+            Whether you have an upcoming project, need full-stack architecture consultancy, or wish
+            to explore new engineering roles, feel free to reach out.
+          </p>
         </div>
 
-        <div class="space-y-2">
-          <label
-            for="message"
-            class="text-[10px] uppercase text-foreground font-mono font-black tracking-wider block"
-            >TRANSMISSION_PACKET_CONTENT:</label
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-card border border-border p-3.5 rounded-xl">
+            <div
+              class="size-8 rounded-lg bg-secondary flex items-center justify-center text-accent"
+            >
+              <Mail class="size-4" />
+            </div>
+            <div>
+              <span class="text-[10px] text-muted-foreground font-mono uppercase block">EMAIL</span>
+              <a
+                href="mailto:hello@abdullahdewan.com"
+                class="text-xs text-foreground font-medium hover:text-accent transition-colors"
+              >
+                hello@abdullahdewan.com
+              </a>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 bg-card border border-border p-3.5 rounded-xl">
+            <div
+              class="size-8 rounded-lg bg-secondary flex items-center justify-center text-accent"
+            >
+              <ShieldCheck class="size-4" />
+            </div>
+            <div>
+              <span class="text-[10px] text-muted-foreground font-mono uppercase block"
+                >ENCRYPTION PROTOCOL</span
+              >
+              <span class="text-xs text-foreground font-medium font-mono">
+                WebCrypto AES-256-GCM End-to-End
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transmission Form (7 cols) -->
+      <div class="lg:col-span-7 bg-card border border-border rounded-xl p-6 space-y-4">
+        <div v-if="isSuccess" class="py-8 text-center space-y-3">
+          <div
+            class="size-12 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto"
           >
-          <textarea
-            id="message"
-            v-model="message"
-            required
-            rows="5"
-            placeholder="Type your message text here..."
-            class="w-full bg-card border-3 border-black dark:border-white p-3.5 text-xs font-mono font-bold text-foreground focus:outline-none shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] focus:shadow-[5px_5px_0px_0px_#000000] transition-all"
-            @focusin="activateTurnstile"
-          ></textarea>
+            <CheckCircle2 class="size-6" />
+          </div>
+          <h4 class="text-base font-bold text-foreground font-heading">
+            Message Delivered Successfully
+          </h4>
+          <p class="text-xs text-muted-foreground max-w-sm mx-auto">
+            Thank you for reaching out. Your transmission has been received and I will respond as
+            soon as possible.
+          </p>
+          <button
+            class="px-4 py-2 bg-secondary hover:bg-secondary/80 text-foreground text-xs font-mono rounded-lg transition-colors cursor-pointer mt-2"
+            @click="isSuccess = false"
+          >
+            Send Another Message
+          </button>
         </div>
 
-        <!-- Encryption controls -->
-        <div
-          class="border-3 border-black dark:border-white bg-card p-3.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] flex flex-col gap-3"
-        >
-          <div class="flex items-center justify-between">
-            <span
-              class="text-[10px] uppercase font-black text-foreground font-mono flex items-center gap-1.5"
+        <form v-else class="space-y-4" @submit="sendTransmission">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label for="name" class="text-xs font-medium text-foreground block">Name</label>
+              <input
+                id="name"
+                v-model="senderName"
+                required
+                type="text"
+                placeholder="Your name"
+                class="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+                @focusin="activateTurnstile"
+              />
+            </div>
+            <div class="space-y-1.5">
+              <label for="email" class="text-xs font-medium text-foreground block">Email</label>
+              <input
+                id="email"
+                v-model="senderEmail"
+                required
+                type="email"
+                placeholder="your.email@example.com"
+                class="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+                @focusin="activateTurnstile"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label for="message_body" class="text-xs font-medium text-foreground block"
+              >Message</label
             >
-              <Lock v-if="secureMode" class="size-4 text-primary animate-pulse" />
-              <Unlock v-else class="size-4 text-muted-foreground" />
-              CIPHER ENCRYPTION MODE (AES-256-GCM)
-            </span>
+            <textarea
+              id="message_body"
+              v-model="message"
+              required
+              rows="4"
+              placeholder="Tell me about your project, questions, or ideas..."
+              class="w-full bg-background border border-border rounded-lg p-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+              @focusin="activateTurnstile"
+            ></textarea>
+          </div>
+
+          <!-- Encryption Mode Switch -->
+          <div
+            class="bg-background/60 border border-border/80 p-3 rounded-lg flex items-center justify-between"
+          >
+            <div class="flex items-center gap-2">
+              <Lock v-if="secureMode" class="size-3.5 text-accent" />
+              <Unlock v-else class="size-3.5 text-muted-foreground" />
+              <span class="text-xs text-foreground font-mono">Client-Side Cipher (AES-256)</span>
+            </div>
             <label class="relative inline-flex items-center cursor-pointer">
               <input
                 v-model="secureMode"
                 type="checkbox"
                 class="sr-only peer"
-                aria-label="Toggle cipher encryption mode"
+                aria-label="Toggle cipher encryption"
                 @change="playClick()"
               />
               <div
-                class="w-9 h-5 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none border-2 border-black dark:border-white peer peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-2 after:border-black after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"
+                class="w-8 h-4 bg-secondary border border-border rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-muted-foreground after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:bg-accent peer-checked:bg-accent/20 peer-checked:border-accent/40"
               ></div>
             </label>
           </div>
 
-          <!-- Secret Key Input -->
-          <div v-if="secureMode" class="space-y-1.5 pt-2 border-t-2 border-black dark:border-white">
-            <span
-              class="text-[9px] uppercase text-foreground font-mono font-black tracking-wider block"
-              >SHARED_SECRET_KEY:</span
+          <div v-if="errorMessage" class="text-rose-400 text-xs font-mono">
+            {{ errorMessage }}
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <div class="overflow-hidden inline-block rounded-lg border border-border/60">
+              <NuxtTurnstile
+                v-if="turnstileReady"
+                v-model="turnstileToken"
+                :options="{ theme: 'dark' }"
+              />
+            </div>
+
+            <button
+              type="submit"
+              :disabled="!turnstileToken || isSubmitting"
+              class="px-5 py-2.5 bg-foreground text-background hover:bg-foreground/90 font-medium text-xs rounded-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-40 disabled:pointer-events-none"
             >
-            <input
-              v-model="secretKey"
-              required
-              type="text"
-              class="w-full bg-card border-2 border-black dark:border-white px-3 py-1.5 text-xs font-mono font-bold text-foreground focus:outline-none shadow-[2px_2px_0px_0px_#000]"
-              @keydown="playTick()"
-            />
-            <span class="text-[8px] text-muted-foreground uppercase font-mono font-bold block">
-              // Message will be encrypted in-browser before wire transit.
-            </span>
+              <Send class="size-3.5" />
+              <span>{{ isSubmitting ? 'Sending...' : 'Send Message' }}</span>
+            </button>
           </div>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
-          <div class="overflow-hidden inline-block border-2 border-black">
-            <NuxtTurnstile
-              v-if="turnstileReady"
-              :key="colorMode"
-              v-model="turnstileToken"
-              :options="{ theme: colorMode === 'dark' ? 'dark' : 'light' }"
-            />
-          </div>
-
-          <Button
-            type="submit"
-            :disabled="!turnstileToken"
-            size="lg"
-            variant="default"
-            class="flex-1 sm:flex-none"
-            @mouseenter="playTick()"
-          >
-            <Send class="size-4" />
-            <span>TRANSMIT_SECURE_PACKET</span>
-          </Button>
-        </div>
-      </form>
-
-      <!-- Connection console logs terminal view -->
-      <div
-        v-if="isSubmitting || isSuccess"
-        class="border-3 border-black dark:border-white bg-slate-950 text-cyan-400 p-5 font-mono text-xs space-y-2 min-h-60 select-none terminal-screen shadow-[5px_5px_0px_0px_#000000] dark:shadow-[5px_5px_0px_0px_#06b6d4]"
-      >
-        <div v-for="(log, idx) in consoleLogs" :key="idx" class="flex gap-2 leading-relaxed">
-          <span class="text-yellow-400 font-black">$</span>
-          <span class="font-bold">{{ log }}</span>
-        </div>
-        <div v-if="isSubmitting" class="flex items-center gap-2 mt-2">
-          <span class="text-yellow-400 font-black">$</span>
-          <span class="animate-pulse font-black text-white uppercase text-[10px] tracking-wider"
-            >PROCESS_RUNNING</span
-          >
-          <span class="blink-cursor"></span>
-        </div>
-
-        <div
-          v-if="isSuccess"
-          class="mt-5 border-2 border-cyan-400 p-4 bg-cyan-950 text-cyan-200 shadow-[3px_3px_0px_0px_#000]"
-        >
-          <div
-            class="flex items-center justify-center gap-1.5 font-black uppercase text-sm mb-1.5 text-yellow-400"
-          >
-            <CheckCircle2 class="size-5 text-yellow-400" />
-            <span>PACKET TRANSMITTED SUCCESS</span>
-          </div>
-          <p class="text-[10px] uppercase text-cyan-300 font-bold tracking-wider text-center">
-            Transmission buffered on operator's side. Connection closed.
-          </p>
-          <Button
-            variant="secondary"
-            size="sm"
-            class="mt-4 w-full"
-            @click="
-              isSuccess = false;
-              playClick();
-            "
-            @mouseenter="playTick()"
-          >
-            SEND_ANOTHER
-          </Button>
-        </div>
+        </form>
       </div>
     </div>
   </div>

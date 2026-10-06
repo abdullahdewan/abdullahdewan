@@ -11,6 +11,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   (e: 'update:modelValue', payload: string | number): void;
+  (e: 'input', event: Event): void;
 }>();
 
 const modelValue = useVModel(props, 'modelValue', emits, {
@@ -25,9 +26,10 @@ const modelValue = useVModel(props, 'modelValue', emits, {
     data-slot="input"
     :class="
       cn(
-        'h-10 w-full min-w-0 bg-card border-2 border-black dark:border-white px-3 py-2 text-sm font-mono text-foreground placeholder:text-muted-foreground shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4] focus:outline-none focus:shadow-[5px_5px_0px_0px_#000000] dark:focus:shadow-[5px_5px_0px_0px_#06b6d4] transition-all disabled:pointer-events-none disabled:opacity-50',
+        'h-9 w-full min-w-0 bg-background/80 border border-border-dim rounded-[2px] px-3 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_10px_rgba(0,255,245,0.2)] disabled:pointer-events-none disabled:opacity-40',
         props.class
       )
     "
+    @input="emits('input', $event)"
   />
 </template>

@@ -5,8 +5,8 @@ import { Terminal } from 'lucide-vue-next';
 const { playClick, playTick, playSuccessLog, playErrorLog } = useAudio();
 
 const logs = ref<{ text: string; type: 'input' | 'output' | 'error' | 'success' }[]>([
-  { text: 'DEWAN INTERACTIVE SHELL [VER 4.3.0]', type: 'success' },
-  { text: 'READY. TYPE "help" OR "neofetch" TO START.', type: 'output' },
+  { text: 'DEWAN INTERACTIVE SHELL [v4.3.0-secure]', type: 'success' },
+  { text: 'Type "help" or "neofetch" to explore system node.', type: 'output' },
 ]);
 
 const commandInput = ref('');
@@ -19,7 +19,7 @@ const handleCommand = (e: Event) => {
   if (!rawCmd) return;
 
   const cmd = rawCmd.toLowerCase();
-  logs.value.push({ text: `guest@dewan:~# ${rawCmd}`, type: 'input' });
+  logs.value.push({ text: `visitor@dewan:~$ ${rawCmd}`, type: 'input' });
   commandInput.value = '';
 
   const knownCommands = [
@@ -42,7 +42,7 @@ const handleCommand = (e: Event) => {
   } else if (cmd.startsWith('sudo ')) {
     playErrorLog();
     logs.value.push({
-      text: 'guest is not in the sudoers file. This incident will be reported.',
+      text: 'Permission denied: visitor is not in sudoers file. Incident logged.',
       type: 'error',
     });
     scrollToBottom();
@@ -53,40 +53,43 @@ const handleCommand = (e: Event) => {
 
   switch (cmd) {
     case 'help':
-      logs.value.push({ text: 'AVAILABLE COMMANDS:', type: 'success' });
+      logs.value.push({ text: 'COMMAND INDEX:', type: 'success' });
       logs.value.push({
-        text: '  neofetch   - Fetch operator system specifications',
+        text: '  neofetch   - Display operator system profile',
         type: 'output',
       });
-      logs.value.push({ text: '  about      - Display operator profile info', type: 'output' });
-      logs.value.push({ text: '  skills     - Check operator tech stack matrix', type: 'output' });
-      logs.value.push({ text: '  projects   - Show repositories sync status', type: 'output' });
+      logs.value.push({ text: '  about      - Read operator biography', type: 'output' });
       logs.value.push({
-        text: '  contact    - Retrieve secure transmission channels',
+        text: '  skills     - View technical capabilities matrix',
         type: 'output',
       });
-      logs.value.push({ text: '  coffee     - Fuel the operator with caffeine', type: 'output' });
-      logs.value.push({ text: '  matrix     - Activate matrix code stream', type: 'output' });
-      logs.value.push({ text: '  clear      - Clear terminal logs output', type: 'output' });
+      logs.value.push({ text: '  projects   - Show indexed repositories', type: 'output' });
+      logs.value.push({
+        text: '  contact    - Retrieve direct transmission channels',
+        type: 'output',
+      });
+      logs.value.push({ text: '  coffee     - Brew caffeine packet', type: 'output' });
+      logs.value.push({ text: '  matrix     - Execute digital stream', type: 'output' });
+      logs.value.push({ text: '  clear      - Purge console screen', type: 'output' });
       break;
     case 'sudo':
       logs.value.push({ text: 'usage: sudo <command>', type: 'error' });
       break;
     case 'neofetch':
       logs.value.push({
-        text: `   .::::::::::.     guest@dewan-node-4.3
- .::::::::::::::::.   --------------------
+        text: `   .::::::::::.     visitor@dewan-node-4.3
+ .::::::::::::::::.   ----------------------
 .::::::::::::::::::.  OS: Arch Linux x86_64
-::::::::::::::::::::  Kernel: 6.12.3-dewan-host
+::::::::::::::::::::  Kernel: 6.12.3-dewan
 ::::::::::::::::::::  Uptime: Since 2021
-::::'   '::'   '::::  Shell: bash 5.2.15
-::::     ::     ::::  Resolution: 1920x1080
-::::.   .::.   .::::  DE: Monospace-TUI
-::::::::::::::::::::  Terminal: Dewan-SH
-'::::::::::::::::::'  CPU: AMD Ryzen 7 @ 4.2GHz
-  '::::::::::::::'    Memory: 8192MB / 16384MB
+::::'   '::'   '::::  Shell: zsh 5.9
+::::     ::     ::::  DE: Monospace-Terminal
+::::.   .::.   .::::  WM: Sway / Wayland
+::::::::::::::::::::  CPU: AMD Ryzen 7 @ 4.2GHz
+'::::::::::::::::::'  Memory: 8192MB / 16384MB
+  '::::::::::::::'    Accent: Cyber Cyan (#00fff5)
      '::::::::'
-       '::::'`,
+        '::::'`,
         type: 'output',
       });
       break;
@@ -104,59 +107,62 @@ const handleCommand = (e: Event) => {
       });
       break;
     case 'about':
-      logs.value.push({ text: 'OPERATOR: ABDULLAH DEWAN', type: 'success' });
-      logs.value.push({ text: 'ROLE: FULL-STACK ENGINEER (BACKEND SPECIALIST)', type: 'output' });
-      logs.value.push({ text: 'COMMERCIAL OPERATIONS INITIATED: 2021', type: 'output' });
+      logs.value.push({ text: 'OPERATOR: Abdullah Dewan', type: 'success' });
       logs.value.push({
-        text: 'BIO: EXPERT IN ROBUST APIS, SQL QUERY OPTIMIZATION AND VUE/NUXT CLIENT CONFIGS.',
+        text: 'ROLE: Full-Stack Engineer & Backend Systems Architect',
+        type: 'output',
+      });
+      logs.value.push({ text: 'LOCATION: Dhaka, Bangladesh', type: 'output' });
+      logs.value.push({
+        text: 'FOCUS: Scalable web architecture, Nuxt/Vue, Node.js, and relational database systems.',
         type: 'output',
       });
       break;
     case 'skills':
-      logs.value.push({ text: 'SYS_LANGUAGES: JS, TS, PHP (80%+ LOAD)', type: 'output' });
-      logs.value.push({ text: 'SYS_DATABASES: MYSQL, POSTGRES, MONGODB', type: 'output' });
+      logs.value.push({ text: 'LANGUAGES: TypeScript, JavaScript, PHP, SQL', type: 'output' });
+      logs.value.push({ text: 'DATABASES: PostgreSQL, MySQL, MongoDB, Redis', type: 'output' });
       logs.value.push({
-        text: 'SYS_CLIENT: VUE 3, NUXT 3 (EXPERT), REACT (BASIC)',
+        text: 'FRAMEWORKS: Vue 3, Nuxt 3, TailwindCSS, Express',
         type: 'output',
       });
       break;
     case 'projects':
-      logs.value.push({ text: 'SYNCED_NODES:', type: 'success' });
+      logs.value.push({ text: 'REPOSITORIES:', type: 'success' });
       logs.value.push({
-        text: '  - traininfo: Nuxt-based railway timetables platform',
+        text: '  * traininfo    - Railway transit scheduling & information platform',
         type: 'output',
       });
       logs.value.push({
-        text: '  - tictactoe: Real-time Socket.IO multiplayer game',
+        text: '  * tictactoe    - Real-time multiplayer game (Socket.IO + Vue)',
         type: 'output',
       });
       logs.value.push({
-        text: '  - renpy-to-md: Python visual novels branching compiler',
+        text: '  * renpy-to-md  - Novel script compiler & markdown engine',
         type: 'output',
       });
       break;
     case 'contact':
       logs.value.push({ text: 'GITHUB: https://github.com/abdullahdewan', type: 'success' });
       logs.value.push({
-        text: 'SECURE_CHANNEL: TRANSMIT PACKET FORM IN CONTROLS AREA',
+        text: 'Direct transmission form available in TRANSMIT section below.',
         type: 'output',
       });
       break;
     case 'matrix':
       matrixActive.value = true;
-      logs.value.push({ text: 'STREAMING MATRIX CODE STREAM...', type: 'success' });
+      logs.value.push({ text: 'STARTING MATRIX RAIN STREAM...', type: 'success' });
       setTimeout(() => {
         matrixActive.value = false;
-        logs.value.push({ text: 'MATRIX FLOW COMPLETED.', type: 'success' });
+        logs.value.push({ text: 'STREAM COMPLETE.', type: 'success' });
         scrollToBottom();
-      }, 4000);
+      }, 3500);
       break;
     case 'clear':
       logs.value = [];
       break;
     default:
       logs.value.push({
-        text: `SHELL: COMMAND NOT FOUND: "${rawCmd}". TYPE "help" FOR HELP.`,
+        text: `zsh: command not found: ${rawCmd}. Type "help" for valid commands.`,
         type: 'error',
       });
   }
@@ -179,40 +185,36 @@ onMounted(() => {
 
 <template>
   <div
-    class="border-3 border-black dark:border-white bg-slate-950 text-cyan-400 font-mono text-xs overflow-hidden flex flex-col justify-between h-[360px] terminal-screen select-none shadow-[5px_5px_0px_0px_#000000] dark:shadow-[5px_5px_0px_0px_#06b6d4]"
+    class="border border-border-dim bg-background/95 text-foreground font-mono text-xs overflow-hidden flex flex-col justify-between h-[340px] terminal-screen select-none rounded-[2px]"
   >
     <!-- Top terminal window bar -->
     <div
-      class="bg-slate-900 text-slate-200 px-4 py-2.5 flex items-center justify-between border-b-3 border-black dark:border-white font-black"
+      class="bg-card/80 backdrop-blur-sm text-foreground px-3 py-2 flex items-center justify-between border-b border-border-dim"
     >
-      <div
-        class="flex items-center gap-2 font-black uppercase tracking-wider text-[10px] text-yellow-400"
-      >
-        <Terminal class="size-4 text-yellow-400" />
-        <span>GUEST_CONSOLE:~#</span>
+      <div class="flex items-center gap-2 uppercase tracking-wider text-[10px] text-primary">
+        <Terminal class="size-3.5 text-primary" />
+        <span class="font-bold">terminal@abdullah-host</span>
       </div>
-      <div class="flex gap-1.5">
-        <div class="size-3 border border-black bg-red-500"></div>
-        <div class="size-3 border border-black bg-yellow-400"></div>
-        <div class="size-3 border border-black bg-green-400"></div>
+      <div class="flex gap-1.5 items-center">
+        <div class="size-2 rounded-full bg-rose-500/80"></div>
+        <div class="size-2 rounded-full bg-amber-500/80"></div>
+        <div class="size-2 rounded-full bg-emerald-500/80"></div>
       </div>
     </div>
 
     <!-- Terminal Output Area -->
-    <div ref="terminalContainer" class="flex-1 p-4 overflow-y-auto space-y-2 relative">
+    <div ref="terminalContainer" class="flex-1 p-3 overflow-y-auto space-y-1.5 relative">
       <!-- Simulated Digital Rain Code -->
       <div
         v-if="matrixActive"
-        class="absolute inset-0 bg-slate-950 flex items-center justify-center overflow-hidden text-cyan-400 text-[10px] leading-tight select-none"
+        class="absolute inset-0 bg-background/95 flex items-center justify-center overflow-hidden text-primary text-[10px] leading-tight select-none z-10"
       >
-        <div
-          class="grid grid-cols-6 gap-2 w-full h-full p-2 select-none opacity-80 animate-pulse font-mono font-bold"
-        >
+        <div class="grid grid-cols-6 gap-2 w-full h-full p-2 select-none opacity-85 font-mono">
           <div v-for="i in 18" :key="i" class="flex flex-col text-center">
             <span
               v-for="j in 12"
               :key="j"
-              class="animate-bounce select-none"
+              class="animate-pulse select-none text-primary"
               :style="`animation-delay: ${j * 60 + i * 30}ms`"
             >
               {{ String.fromCharCode(33 + Math.floor(Math.random() * 93)) }}
@@ -224,22 +226,22 @@ onMounted(() => {
       <div
         v-for="(log, index) in logs"
         :key="index"
-        class="leading-relaxed whitespace-pre-wrap break-all font-bold"
+        class="leading-relaxed whitespace-pre-wrap break-all text-[11px]"
       >
         <template v-if="log.type === 'input'">
-          <span class="text-yellow-400 font-black">guest@dewan</span>
-          <span class="text-slate-400">:</span>
-          <span class="text-green-400 font-black">~#</span>
-          <span class="text-white font-black ml-1.5">{{
-            log.text.replace('guest@dewan:~# ', '')
+          <span class="text-primary font-bold">visitor@dewan</span>
+          <span class="text-muted-foreground">:</span>
+          <span class="text-emerald-400 font-bold">~$</span>
+          <span class="text-foreground ml-1.5">{{
+            log.text.replace('visitor@dewan:~$ ', '')
           }}</span>
         </template>
         <template v-else>
           <span
             :class="{
-              'text-cyan-400': log.type === 'output',
-              'text-red-400 font-black': log.type === 'error',
-              'text-yellow-400 font-black': log.type === 'success',
+              'text-primary': log.type === 'output',
+              'text-rose-400': log.type === 'error',
+              'text-emerald-400 font-bold': log.type === 'success',
             }"
           >
             {{ log.text }}
@@ -250,22 +252,22 @@ onMounted(() => {
 
     <!-- Terminal Command Input Bar -->
     <form
-      class="border-t-3 border-black dark:border-white p-3 flex items-center gap-2 bg-slate-900 font-bold"
+      class="border-t border-border-dim p-2.5 flex items-center gap-2 bg-card/60"
       @submit="handleCommand"
     >
-      <span class="text-yellow-400 font-black select-none">$</span>
+      <span class="text-emerald-400 font-bold text-xs select-none">$</span>
       <input
         v-model="commandInput"
         type="text"
-        placeholder="Type command... (try 'neofetch', 'coffee')"
-        class="flex-1 bg-transparent border-0 text-white outline-none focus:ring-0 p-0 text-xs font-mono font-bold placeholder:text-slate-500"
+        placeholder="Type command... ('help', 'neofetch')"
+        class="flex-1 bg-transparent border-0 text-foreground outline-none focus:ring-0 p-0 text-xs font-mono placeholder:text-muted-foreground"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
         @keydown="playTick()"
       />
-      <span class="blink-cursor select-none text-yellow-400"></span>
+      <span class="blink-cursor select-none text-primary"></span>
     </form>
   </div>
 </template>

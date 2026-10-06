@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { ExternalLink, Star, GitFork, AlertCircle, Search } from 'lucide-vue-next';
+import { Star, GitFork, Search, ArrowUpRight, Github } from 'lucide-vue-next';
 
 interface Project {
   name: string;
@@ -27,18 +17,18 @@ const featuredProjects: Project[] = [
   {
     name: 'traininfo',
     description:
-      'A third-party Bangladesh Railway Time Table and tracking platform featuring clean schedules, live telemetry, and localization.',
+      'A third-party Bangladesh Railway timetable and live tracking platform featuring clean schedules, search indices, and station telemetry.',
     stars: 0,
     forks: 0,
     url: 'https://github.com/abdullahdewan/traininfo',
     language: 'TypeScript',
     isFeatured: true,
-    techStack: ['Nuxt 3', 'Vue 3', 'Tailwind v4', 'Pinia', 'Shadcn Vue'],
+    techStack: ['Nuxt 3', 'Vue 3', 'Tailwind CSS', 'Pinia', 'Nitro Engine'],
   },
   {
     name: 'tictactoe',
     description:
-      'A real-time multiplayer Tic-Tac-Toe game. Supports dynamic rooms, automatic win/draw detection, and full containerized deployments.',
+      'Real-time multiplayer gaming platform with dynamic room allocation, websocket state synchronization, and containerized deployment.',
     stars: 0,
     forks: 0,
     url: 'https://github.com/abdullahdewan/tictactoe',
@@ -49,18 +39,18 @@ const featuredProjects: Project[] = [
   {
     name: 'renpy-to-md',
     description:
-      "A production-ready Python tool designed to parse complex Ren'Py visual novel scripts (.rpy files) and convert them to clean Markdown files.",
+      "Production-ready Python compiler designed to parse complex Ren'Py visual novel scripts (.rpy) and generate structured Markdown trees.",
     stars: 0,
     forks: 0,
     url: 'https://github.com/abdullahdewan/renpy-to-md',
     language: 'Python',
     isFeatured: true,
-    techStack: ['Python 3', 'Regex Parser', 'Markdown generator'],
+    techStack: ['Python 3', 'Regex Parser', 'AST Generation', 'Markdown'],
   },
   {
     name: 'FreeDownloader',
     description:
-      'A client-side downloader tool optimized for speed and simplicity. Supports multiple streams and direct folder save configurations.',
+      'Client-side multi-stream downloader tool optimized for speed and simplicity without external binary dependencies.',
     stars: 0,
     forks: 0,
     url: 'https://github.com/abdullahdewan/FreeDownloader',
@@ -82,7 +72,7 @@ interface GitHubRepo {
 const fetchError = ref(false);
 const searchQuery = ref('');
 
-const { data: repos, status } = useAsyncData<Project[]>(
+const { data: repos } = useAsyncData<Project[]>(
   'github-projects',
   async () => {
     if (
@@ -106,11 +96,12 @@ const { data: repos, status } = useAsyncData<Project[]>(
         );
         return {
           name: repo.name,
-          description: repo.description || match?.description || 'No description provided.',
+          description:
+            repo.description || match?.description || 'Open source engineering repository.',
           stars: repo.stargazers_count,
           forks: repo.forks_count,
           url: repo.html_url,
-          language: repo.language || match?.language || 'Unknown',
+          language: repo.language || match?.language || 'Code',
           isFeatured: match?.isFeatured || false,
           techStack: match?.techStack || [repo.language].filter((l): l is string => !!l),
         };
@@ -139,8 +130,6 @@ const { data: repos, status } = useAsyncData<Project[]>(
   }
 );
 
-const loading = computed(() => status.value === 'pending');
-
 const filteredRepos = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
   const projects = repos.value || featuredProjects;
@@ -158,150 +147,91 @@ const filteredRepos = computed(() => {
 
 <template>
   <div class="space-y-6">
-    <div class="border-b-3 border-black dark:border-white pb-4">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div>
-          <h2
-            class="text-lg font-black font-mono tracking-tight flex items-center gap-2 text-foreground uppercase"
-          >
-            <span class="w-3 h-5 bg-primary border border-black dark:border-white"></span>
-            ACTIVE_REPOSITORIES.sh
-          </h2>
-          <p class="text-xs text-foreground font-mono font-bold uppercase mt-1">
-            Direct telemetry from GitHub node @abdullahdewan
-          </p>
-        </div>
-        <div
-          v-if="loading"
-          class="text-[10px] font-mono font-black uppercase text-foreground bg-primary border-2 border-black dark:border-white px-2.5 py-1 shadow-[2px_2px_0px_0px_#000] flex items-center gap-1.5"
-        >
-          <span class="w-1.5 h-1.5 bg-black dark:bg-white animate-pulse"></span>
-          // FETCHING_LIVE_DATA...
-        </div>
-        <div
-          v-else-if="fetchError"
-          class="flex items-center gap-1.5 text-[10px] font-mono font-black uppercase text-black bg-amber-400 border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_0px_#000]"
-        >
-          <AlertCircle class="size-3.5" />
-          // FALLBACK_STATIC_DB_LOADED
-        </div>
-        <div
-          v-else
-          class="text-[10px] font-mono font-black uppercase text-white bg-emerald-800 border-2 border-black px-2.5 py-1 shadow-[2px_2px_0px_0px_#000] flex items-center gap-1.5"
-        >
-          <span class="w-1.5 h-1.5 bg-white animate-pulse"></span>
-          // LIVE_SYNC_OK
-        </div>
-      </div>
-    </div>
-
-    <!-- Search Input for UX Polish -->
-    <div class="pb-2 font-mono">
-      <div
-        class="flex items-center gap-2 border-3 border-black dark:border-white bg-card px-3.5 py-2.5 text-xs shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#06b6d4]"
-      >
-        <Search class="size-4 text-foreground" />
-        <span
-          class="text-foreground uppercase font-black select-none text-[9px] font-mono tracking-wider bg-primary text-primary-foreground px-1.5 py-0.5 border border-black"
-          >SEARCH_FILTER:</span
-        >
+    <!-- Filter Search Bar -->
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <div class="relative flex-1 max-w-sm">
+        <Search class="size-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Filter by name or tech stack (e.g. Nuxt, python)..."
-          class="flex-1 bg-transparent border-0 outline-none p-0 text-xs font-mono font-bold text-foreground focus:ring-0 placeholder:text-muted-foreground"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
+          placeholder="Search repositories by name or tech stack..."
+          class="w-full bg-card border border-border rounded-lg pl-9 pr-8 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
         />
         <button
           v-if="searchQuery"
-          class="cursor-pointer font-black text-foreground hover:bg-muted select-none text-base px-2 border border-black"
+          class="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs"
           @click="searchQuery = ''"
         >
-          ×
+          ✕
         </button>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+        <Github class="size-3.5" />
+        <span>@abdullahdewan</span>
       </div>
     </div>
 
-    <div>
-      <div
-        v-if="filteredRepos.length === 0"
-        class="text-center font-mono font-black py-12 text-foreground bg-card border-3 border-black dark:border-white shadow-[4px_4px_0px_0px_#000] text-xs uppercase"
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <a
+        v-for="project in filteredRepos"
+        :key="project.name"
+        :href="project.url"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-card border border-border rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-border-hover hover:bg-card/90 transition-all group cursor-pointer"
       >
-        [!] No repositories matching your search query.
-      </div>
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <Card
-          v-for="project in filteredRepos"
-          :key="project.name"
-          class="bg-card text-card-foreground border-3 border-black dark:border-white shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06b6d4] hover:-translate-y-1 transition-all duration-150 relative overflow-hidden flex flex-col justify-between"
-        >
-          <CardHeader class="pb-3 pt-4 px-4">
-            <div class="flex items-start justify-between gap-2">
-              <CardTitle
-                class="text-base font-black uppercase tracking-tight text-foreground truncate max-w-50 font-mono"
-              >
-                {{ project.name }}
-              </CardTitle>
-              <div class="flex gap-1.5 shrink-0">
-                <Badge
-                  v-if="project.isFeatured"
-                  variant="default"
-                  class="bg-primary text-primary-foreground font-black text-[8px]"
-                >
-                  FEATURED
-                </Badge>
-                <Badge
-                  variant="outline"
-                  class="bg-secondary text-secondary-foreground font-black text-[8px]"
-                >
-                  {{ project.language }}
-                </Badge>
-              </div>
-            </div>
-            <CardDescription
-              class="text-xs text-foreground font-medium line-clamp-3 leading-relaxed mt-2.5 font-sans"
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h4
+              class="text-base font-bold text-foreground font-heading group-hover:text-accent transition-colors flex items-center gap-1.5"
             >
-              {{ project.description }}
-            </CardDescription>
-          </CardHeader>
+              <span>{{ project.name }}</span>
+              <ArrowUpRight
+                class="size-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+              />
+            </h4>
+            <span
+              v-if="project.isFeatured"
+              class="text-[10px] font-mono text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full"
+            >
+              Featured
+            </span>
+          </div>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            {{ project.description }}
+          </p>
+        </div>
 
-          <CardContent class="pb-4 pt-0 px-4">
-            <div class="flex flex-wrap gap-1.5 mt-1">
-              <span
-                v-for="tech in project.techStack"
-                :key="tech"
-                class="text-[9px] font-mono font-black bg-muted text-foreground px-2 py-0.5 border border-black dark:border-white shadow-[1px_1px_0px_0px_#000]"
-              >
-                {{ tech }}
-              </span>
-            </div>
-          </CardContent>
+        <div class="space-y-3 pt-2 border-t border-border/50">
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              v-for="tech in project.techStack"
+              :key="tech"
+              class="text-[10px] font-mono text-muted-foreground bg-secondary px-2 py-0.5 rounded-md"
+            >
+              {{ tech }}
+            </span>
+          </div>
 
-          <CardFooter
-            class="pt-3 pb-3 px-4 border-t-2 border-black dark:border-white flex items-center justify-between text-xs bg-muted/30"
+          <div
+            class="flex items-center justify-between text-[11px] font-mono text-muted-foreground pt-1"
           >
-            <div class="flex items-center gap-4 text-foreground font-mono font-black text-[10px]">
-              <span class="flex items-center gap-1 bg-card px-2 py-0.5 border border-black">
-                <Star class="size-3.5 text-amber-500 fill-amber-400" />
+            <div class="flex items-center gap-3">
+              <span class="flex items-center gap-1">
+                <Star class="size-3 text-muted-foreground" />
                 <span>{{ project.stars }}</span>
               </span>
-              <span class="flex items-center gap-1 bg-card px-2 py-0.5 border border-black">
-                <GitFork class="size-3.5 text-cyan-600" />
+              <span class="flex items-center gap-1">
+                <GitFork class="size-3 text-muted-foreground" />
                 <span>{{ project.forks }}</span>
               </span>
             </div>
-            <Button as-child variant="default" size="sm" class="text-[9px]">
-              <a :href="project.url" target="_blank" rel="noopener noreferrer">
-                <span>RECON</span>
-                <ExternalLink class="size-3" />
-              </a>
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
+            <span class="text-accent text-[11px] group-hover:underline">View on GitHub →</span>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </template>

@@ -2,14 +2,14 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export { default as Badge } from './Badge.vue';
 
 export const badgeVariants = cva(
-  'inline-flex items-center border-2 border-black dark:border-white px-2.5 py-0.5 text-xs font-black uppercase font-mono tracking-wider transition-colors shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#ffffff]',
+  'inline-flex items-center border border-border-dim px-2 py-0.5 text-xs font-mono tracking-wider transition-colors rounded-[2px]',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground',
-        secondary: 'bg-secondary text-secondary-foreground',
-        destructive: 'bg-destructive text-destructive-foreground',
-        outline: 'bg-card text-foreground',
+        default: 'bg-primary/10 border-primary/40 text-primary',
+        secondary: 'bg-muted border-border-dim text-muted-foreground',
+        destructive: 'bg-destructive/10 border-destructive/40 text-destructive',
+        outline: 'bg-transparent border-border text-foreground',
       },
     },
     defaultVariants: {
