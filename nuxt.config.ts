@@ -1,7 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
-  css: ['./app/assets/css/style.css'],
+  css: ['~/assets/css/style.css'],
 
   modules: ['@nuxt/eslint', '@nuxtjs/turnstile'],
 
