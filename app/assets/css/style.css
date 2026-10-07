@@ -5,7 +5,7 @@
   src: url('../fonts/PlusJakartaSans-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -13,7 +13,7 @@
   src: url('../fonts/PlusJakartaSans-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -21,7 +21,7 @@
   src: url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -69,7 +69,7 @@
   --popover: #18181b;
   --popover-foreground: #ffffff;
   --primary: #f97316;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #09090b;
   --secondary: #27272a;
   --secondary-foreground: #f4f4f5;
   --muted: #1c1c1f;
@@ -91,7 +91,7 @@
   --popover: #18181b;
   --popover-foreground: #ffffff;
   --primary: #f97316;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #09090b;
   --secondary: #27272a;
   --secondary-foreground: #f4f4f5;
   --muted: #1c1c1f;

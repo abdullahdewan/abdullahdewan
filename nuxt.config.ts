@@ -25,8 +25,10 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/': { prerender: true },
     '/api/**': { cors: true },
     '/resume': { prerender: true },
+    '/sitemap.xml': { prerender: true },
   },
 
   nitro: {
@@ -42,7 +44,14 @@ export default defineNuxtConfig({
       },
     },
     routeRules: {
-      '/**': { headers: { 'cache-control': 's-maxage=3600, stale-while-revalidate=86400' } },
+      '/**': {
+        headers: {
+          'cache-control': 's-maxage=3600, stale-while-revalidate=86400',
+          'x-content-type-options': 'nosniff',
+          'x-frame-options': 'DENY',
+          'referrer-policy': 'strict-origin-when-cross-origin',
+        },
+      },
     },
   },
 

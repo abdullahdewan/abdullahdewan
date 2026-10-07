@@ -102,7 +102,7 @@ const projects: Project[] = [
             :href="project.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 text-xs font-semibold bg-primary text-white hover:bg-orange-600 px-3.5 py-1.5 rounded-full shadow-sm hover:shadow-orange-500/20 transition-all shrink-0 ml-3"
+            class="inline-flex items-center gap-1.5 text-xs font-bold bg-primary text-zinc-950 hover:bg-orange-400 px-3.5 py-1.5 rounded-full shadow-sm hover:shadow-orange-500/20 transition-all shrink-0 ml-3"
           >
             <span>View live</span>
             <ArrowUpRight class="size-3" />

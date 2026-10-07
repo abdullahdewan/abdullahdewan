@@ -12,18 +12,59 @@ useHead({
   title: 'Abdullah Dewan — Full-Stack Engineer & Architect',
   htmlAttrs: { lang: 'en' },
   meta: [
-    {
-      name: 'description',
-      content:
-        'Abdullah Dewan - Full-Stack Engineer and Backend Systems Architect specializing in Vue, Nuxt, TypeScript, and modern scalable systems.',
-    },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { name: 'theme-color', content: '#111112' },
   ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    { rel: 'canonical', href: 'https://abdullahdewan.com' },
   ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Abdullah Dewan',
+        url: 'https://abdullahdewan.com',
+        jobTitle: 'Full-Stack Software Engineer & Backend Systems Architect',
+        sameAs: [
+          'https://github.com/abdullahdewan',
+          'https://linkedin.com/in/abdullahdewan',
+          'https://x.com/abdullahdewan',
+        ],
+        knowsAbout: [
+          'Vue.js',
+          'Nuxt',
+          'TypeScript',
+          'JavaScript',
+          'Node.js',
+          'PostgreSQL',
+          'MySQL',
+          'Docker',
+          'Tailwind CSS',
+        ],
+      }),
+    },
+  ],
+});
+
+useSeoMeta({
+  title: 'Abdullah Dewan — Full-Stack Engineer & Architect',
+  description:
+    'Abdullah Dewan - Full-Stack Engineer and Backend Systems Architect specializing in Vue, Nuxt, TypeScript, and modern scalable systems.',
+  ogTitle: 'Abdullah Dewan — Full-Stack Engineer & Architect',
+  ogDescription:
+    'Full-Stack Engineer and Backend Systems Architect specializing in Vue, Nuxt, TypeScript, and modern scalable systems.',
+  ogType: 'website',
+  ogUrl: 'https://abdullahdewan.com',
+  ogLocale: 'en_US',
+  ogSiteName: 'Abdullah Dewan Portfolio',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Abdullah Dewan — Full-Stack Engineer & Architect',
+  twitterDescription:
+    'Full-Stack Engineer and Backend Systems Architect specializing in Vue, Nuxt, TypeScript, and high-performance applications.',
 });
 
 const mobileMenuOpen = ref(false);
@@ -109,7 +150,7 @@ const scrollTo = (id: string) => {
             Resume
           </a>
           <button
-            class="text-xs font-semibold bg-primary hover:bg-orange-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow-orange-500/20 transition-all cursor-pointer"
+            class="text-xs font-bold bg-primary hover:bg-orange-400 text-zinc-950 px-4 py-2 rounded-full shadow-sm hover:shadow-orange-500/20 transition-all cursor-pointer"
             @click="scrollTo('contact')"
           >
             Let's talk
@@ -167,7 +208,7 @@ const scrollTo = (id: string) => {
               <Linkedin class="size-4" />
             </a>
             <a
-              href="https://x.com/abdullahdewan"
+              href="https://x.com/xabdullahdewan"
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-primary transition-colors"
@@ -188,7 +229,7 @@ const scrollTo = (id: string) => {
         </aside>
 
         <!-- SECTIONS CONTAINER -->
-        <div class="flex-1 space-y-24 sm:space-y-32">
+        <main class="flex-1 space-y-24 sm:space-y-32">
           <!-- HERO SECTION -->
           <section id="hero" class="relative min-h-125 lg:min-h-145 flex items-center">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center w-full">
@@ -202,7 +243,7 @@ const scrollTo = (id: string) => {
                 <h1
                   class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight"
                 >
-                  I'm <span class="text-white">Abdullah</span>
+                  I'm <span class="text-white">Abdullah </span>
                   <span class="text-primary">Dewan</span>
                 </h1>
 
@@ -213,7 +254,7 @@ const scrollTo = (id: string) => {
 
                 <div class="pt-3 flex flex-wrap items-center gap-3">
                   <button
-                    class="bg-primary hover:bg-orange-600 text-white text-xs sm:text-sm font-semibold px-7 py-3 rounded-full shadow-[0_4px_16px_rgba(249,115,22,0.35)] transition-all cursor-pointer"
+                    class="bg-primary hover:bg-orange-400 text-zinc-950 text-xs sm:text-sm font-bold px-7 py-3 rounded-full shadow-[0_4px_16px_rgba(249,115,22,0.35)] transition-all cursor-pointer"
                     @click="scrollTo('about')"
                   >
                     Learn more
@@ -321,7 +362,7 @@ const scrollTo = (id: string) => {
           <section id="contact">
             <ContactSection />
           </section>
-        </div>
+        </main>
       </div>
 
       <!-- FOOTER -->
