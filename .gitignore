@@ -9,6 +9,9 @@ dist
 # Node dependencies
 node_modules
 
+# Local agent skills
+.agents
+
 # Logs
 logs
 *.log

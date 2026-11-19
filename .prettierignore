@@ -2,6 +2,7 @@ node_modules
 dist
 .vscode
 yarn.lock
+pnpm-lock.yaml
 package.json
 package-lock.json
 tsconfig.json

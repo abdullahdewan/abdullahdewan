@@ -1,0 +1,9 @@
+allowBuilds:
+  esbuild: true
+  vue-demi: true
+permissions:
+  '@unhead/vue':
+    skills: true
+overrides:
+  '@simple-git/argv-parser': '^2.0.1'
+  decode-uri-component: '^0.5.0'
