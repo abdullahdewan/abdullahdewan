@@ -1,107 +1,97 @@
 <script setup lang="ts">
-import type { Component } from 'vue';
-import { Cpu, Server, Database } from 'lucide-vue-next';
+import { Server, Cpu, Database, Calendar, Building2 } from '@lucide/vue';
+import type { ExperienceTimelineItem } from '~/types';
 
-interface Event {
-  year: string;
-  title: string;
-  subtitle: string;
-  icon: Component;
-  description: string[];
-}
-
-const timeline: Event[] = [
+const timeline: ExperienceTimelineItem[] = [
   {
     year: '2025 - PRESENT',
-    title: 'Senior Systems Deployments',
-    subtitle: 'Independent Engineering',
+    title: 'Senior Systems & Architecture Engagements',
+    subtitle: 'Independent Software Engineering & Systems Architecture',
     icon: Server,
-    description: [
-      'Architected highly responsive full-stack applications utilizing Nuxt 3 / Vue 3 and Node.js.',
-      'Designed custom scrapers and API systems parsing real-time transit and database states.',
-      'Optimized backend services with deep indexing and queries in Postgres and MySQL databases.',
+    achievements: [
+      'Architected highly performant, full-stack web applications utilizing Nuxt 4, Vue 3, and Node.js with strict type safety.',
+      'Designed custom telemetry collectors and real-time scrapers parsing railway transit and database states with low latency.',
+      'Optimized persistence layers with composite indexing, query profiling, and connection pooling across PostgreSQL and MySQL databases.',
     ],
   },
   {
     year: '2023 - 2024',
     title: 'Full-Stack Integration Operations',
-    subtitle: 'Consultancy & Client Integrations',
+    subtitle: 'Consultancy & Client Application Integrations',
     icon: Cpu,
-    description: [
-      'Built and managed real-time websocket platforms utilizing Socket.IO and Express server clusters.',
-      'Packaged services inside Docker environments for multi-host devops pipeline deployments.',
-      'Spearheaded transition from legacy databases to hybrid NoSQL (MongoDB) and Relational structures.',
+    achievements: [
+      'Engineered and scaled real-time WebSocket platforms utilizing Socket.IO, Node.js, and Express server clusters.',
+      'Containerized microservices within Docker environments for automated CI/CD pipelines and reproducible deployments.',
+      'Managed migration initiatives transitioning legacy persistence systems into hybrid MongoDB and relational structures.',
     ],
   },
   {
     year: '2021 - 2022',
-    title: 'Systems Inception',
+    title: 'Systems Inception & Backend Engineering',
     subtitle: 'Junior Backend & Frontend Operations',
     icon: Database,
-    description: [
-      'Initiated professional commercial operations in backend application logic development.',
-      'Coded complex queries, relational tables, and administration interfaces using raw PHP & Javascript.',
-      'Integrated Vue SPA environments, optimizing performance, client state routing, and server payloads.',
+    achievements: [
+      'Initiated professional commercial operations in backend application logic and relational schema development.',
+      'Wrote high-throughput queries, relational tables, and administrative interfaces using PHP, MySQL, and JavaScript.',
+      'Built reactive Vue SPA interfaces, optimizing client-side state routing, asset bundling, and server payload efficiency.',
     ],
   },
 ];
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="border-b-3 border-black dark:border-white pb-4">
-      <h2
-        class="text-lg font-black font-mono tracking-tight flex items-center gap-2 text-foreground uppercase"
-      >
-        <span class="w-3 h-5 bg-primary border border-black dark:border-white"></span>
-        LOGGED_OPERATIONS.log
+  <div class="space-y-12">
+    <!-- Clean Section Head -->
+    <div class="text-center space-y-4 max-w-3xl mx-auto">
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
+        Commercial Experience
       </h2>
-      <p class="text-xs text-foreground font-mono font-bold uppercase mt-1">
-        Chronological activity of systems deployment since 2021
+      <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
+        A chronological record of production deployments, systems architecture milestones, and
+        commercial engineering roles.
       </p>
     </div>
 
-    <div class="pt-4 font-sans">
-      <div class="relative border-l-4 border-black dark:border-white pl-8 ml-4 space-y-8">
-        <!-- Event node -->
-        <div v-for="event in timeline" :key="event.year" class="relative group">
-          <!-- Bullet Node Icon with Hard Shadow -->
+    <div
+      class="max-w-4xl mx-auto relative border-l border-white/10 pl-5 sm:pl-10 ml-2 sm:ml-8 space-y-8"
+    >
+      <div v-for="item in timeline" :key="item.year" class="relative group">
+        <!-- Timeline Node Indicator -->
+        <div class="timeline-indicator"></div>
+
+        <!-- Experience Card -->
+        <div class="card-spotlight p-5 sm:p-8 space-y-5">
           <div
-            class="absolute -left-[49px] top-1 bg-primary border-2 border-black dark:border-white p-2 text-primary-foreground shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#ffffff]"
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/5"
           >
-            <component :is="event.icon" class="size-4" />
+            <div class="space-y-1">
+              <h3 class="text-xl sm:text-2xl font-bold text-white transition-colors">
+                {{ item.title }}
+              </h3>
+              <div class="text-sm text-zinc-400 flex items-center gap-1.5 font-medium">
+                <Building2 class="size-4 text-zinc-400" />
+                <span>{{ item.subtitle }}</span>
+              </div>
+            </div>
+
+            <div
+              class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-semibold text-zinc-300 shrink-0 self-start sm:self-auto"
+            >
+              <Calendar class="size-3.5" />
+              <span>{{ item.year }}</span>
+            </div>
           </div>
 
-          <div
-            class="bg-card border-3 border-black dark:border-white p-5 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06b6d4] space-y-3"
-          >
-            <span
-              class="inline-block text-[9px] bg-secondary text-secondary-foreground border-2 border-black dark:border-white px-2.5 py-1 font-mono font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_#000]"
+          <ul class="space-y-3 text-sm text-zinc-400">
+            <li
+              v-for="achievement in item.achievements"
+              :key="achievement"
+              class="flex items-start gap-3 leading-relaxed"
             >
-              {{ event.year }}
-            </span>
-            <h3 class="text-base font-black text-foreground uppercase tracking-tight font-heading">
-              {{ event.title }}
-            </h3>
-            <h4 class="text-xs text-muted-foreground uppercase font-mono font-bold tracking-wide">
-              {{ event.subtitle }}
-            </h4>
-
-            <ul
-              class="list-none space-y-2 mt-4 pl-0 text-sm text-foreground font-medium border-t-2 border-black dark:border-white pt-3"
-            >
-              <li
-                v-for="bullet in event.description"
-                :key="bullet"
-                class="flex gap-2 items-start leading-relaxed"
-              >
-                <span class="text-primary font-black select-none font-mono text-xs mt-0.5"
-                  >&gt;</span
-                >
-                <span>{{ bullet }}</span>
-              </li>
-            </ul>
-          </div>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand shrink-0 mt-2"></span>
+              <span>{{ achievement }}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

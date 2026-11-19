@@ -1,152 +1,116 @@
-# ⚡ DEWAN INTERACTIVE TERMINAL // guest@github:~$
-
-```
-    .::::::::::.     SYS_OPERATOR: DEWAN_ABDULLAH
-  .::::::::::::::::.   ----------------------------
- .::::::::::::::::::.  OS: Linux x86_64
- ::::::::::::::::::::  Role: Full-Stack Engineer / Backend Architect
- ::::::::::::::::::::  Uptime: Commercial Ops Since 2021
- ::::'   '::'   '::::  Clearance: Guest (Public Access)
- ::::'     ::     ::::  Status: ACTIVE_FOR_HIRE [■■■■■■■■■■] 100%
- ::::.   .::.   .::::  Location: Dhaka, Bangladesh
- :::::::;;;;;;:::::::  Primary Stack: TS / JS / PHP / SQL / NoSQL
- ::::::::::::::::::::
- '::::::::::::::::::'
-   '::::::::::::::'
-      '::::::::'       [⚡ CONNECTED TO NODE: https://abdullahdewan.com]
-        '::::'
-```
-
 <div align="center">
 
-[![Nuxt 3](https://img.shields.io/badge/Framework-Nuxt_3-00DC82?style=for-the-badge&logo=nuxt&logoColor=white)](https://nuxt.com)
-[![Vue 3](https://img.shields.io/badge/Frontend-Vue_3-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org)
-[![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![PHP](https://img.shields.io/badge/Backend-PHP_8-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net)
-[![UI Style](https://img.shields.io/badge/UI_Style-Neubrutalism-FACC15?style=for-the-badge&logo=tailwindcss&logoColor=black)](https://tailwindcss.com)
-[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-100%2F100_SEO_%26_A11Y-00DC82?style=for-the-badge&logo=lighthouse&logoColor=white)](https://developer.chrome.com/docs/lighthouse/overview/)
+![AD Logo](public/logo-192.png)
+
+# Abdullah Dewan
+
+**Full-Stack Software Engineer & Backend Systems Architect**  
+_Building resilient, high-throughput web applications, distributed APIs, and low-latency database architectures._
+
+<br />
+
+[![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-abdullahdewan.com-5237F9?style=for-the-badge&logo=google-chrome&logoColor=white)](https://abdullahdewan.com)
+[![Status](https://img.shields.io/badge/Status-ACTIVE__FOR__HIRE-10B981?style=for-the-badge&logo=statuspage&logoColor=white)](https://abdullahdewan.com/#contact)
+[![Location](<https://img.shields.io/badge/Location-Dhaka%2C_Bangladesh_(Remote)-141414?style=for-the-badge&logo=googlemaps&logoColor=white>)](https://abdullahdewan.com)
+
+<br />
+
+[![GitHub](https://img.shields.io/badge/GitHub-abdullahdewan-141414?style=flat-square&logo=github&logoColor=white)](https://github.com/abdullahdewan)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-abdullahdewan-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/abdullahdewan)
+[![X (Twitter)](https://img.shields.io/badge/X-@xabdullahdewan-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/xabdullahdewan)
+[![Email](https://img.shields.io/badge/Email-Direct_Transmission-5237F9?style=flat-square&logo=gmail&logoColor=white)](mailto:dewanmohammadabdullah@gmail.com)
 
 </div>
 
 ---
 
-### 🖥️ OPERATIONAL OVERVIEW // READ_ME.md
+## ⚡ Executive Summary
 
-I am a **Full-Stack & Backend Systems Architect** with over 3 years of commercial software engineering experience. Specializing in high-performance database architectures, query execution optimization, secure API gateways, and real-time client applications.
+I am a Full-Stack Software Engineer and Backend Systems Architect with over 3 years of commercial production experience. My engineering focus centers on high-throughput backend services, resilient database execution plans, and modern Vue 3 / Nuxt 4 client architectures where sub-20ms edge performance meets verified type-strict reliability.
 
-- ⚡ **Aesthetic & UI Engine:** Built using a custom **Neubrutalist Design System** featuring sharp 3px borders, zero-blur offset shadows, and responsive micro-animations.
-- 🎯 **Lighthouse Benchmarks:** **100/100 Accessibility**, **100/100 SEO**, **100/100 Best Practices**, and **100/100 Agentic Browsing** rating.
-- 🧪 **Test & Build Verification:** Fully typed with TypeScript strict rules and unit tested with Vitest.
-
----
-
-### 🛠️ TECH STACK & SYSTEM CAPABILITIES
-
-#### 💻 Programming Languages
-
-<p align="left">
-  <a href="https://www.typescriptlang.org" target="_blank"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" /></a>
-  <a href="https://www.php.net" target="_blank"><img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /></a>
-  <a href="https://www.mysql.com" target="_blank"><img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="SQL" /></a>
-  <a href="https://www.python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /></a>
-</p>
-
-#### 🗄️ Databases & Backend Architecture
-
-<p align="left">
-  <a href="https://www.postgresql.org" target="_blank"><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
-  <a href="https://www.mysql.com" target="_blank"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" /></a>
-  <a href="https://www.mongodb.com" target="_blank"><img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" /></a>
-  <a href="https://nodejs.org" target="_blank"><img src="https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" /></a>
-  <a href="https://expressjs.com" target="_blank"><img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" /></a>
-  <a href="https://en.wikipedia.org/wiki/REST" target="_blank"><img src="https://img.shields.io/badge/REST_APIs-0055DA?style=for-the-badge&logo=fastapi&logoColor=white" alt="REST APIs" /></a>
-</p>
-
-#### 🎨 Client Frameworks & Tooling
-
-<p align="left">
-  <a href="https://nuxt.com" target="_blank"><img src="https://img.shields.io/badge/Nuxt_3-00DC82?style=for-the-badge&logo=nuxt&logoColor=white" alt="Nuxt 3" /></a>
-  <a href="https://vuejs.org" target="_blank"><img src="https://img.shields.io/badge/Vue.js_3-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue.js 3" /></a>
-  <a href="https://tailwindcss.com" target="_blank"><img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
-  <a href="https://www.docker.com" target="_blank"><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" /></a>
-  <a href="https://vitest.dev" target="_blank"><img src="https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white" alt="Vitest" /></a>
-  <a href="https://git-scm.com" target="_blank"><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" /></a>
-  <a href="https://www.debian.org" target="_blank"><img src="https://img.shields.io/badge/Linux_Debian-FCC624?style=for-the-badge&logo=debian&logoColor=black" alt="Linux Debian" /></a>
-</p>
+- 🚀 **Frontend Architecture:** Universal SSR with Nuxt 4, reactive state engines, zero-lag hydration, and fluid custom design systems.
+- ⚙️ **Backend Microservices:** High-concurrency Node.js endpoints, real-time WebSocket pub/sub streams, and defensive API schemas.
+- 🗄️ **Database Persistence:** Composite indexing, query plan profiling, transaction integrity, and connection pooling across PostgreSQL and MySQL.
+- 🐳 **Runtime & DevOps:** Containerized multi-stage Docker builds, Linux AMD64 edge runtime environments, and automated GitHub Actions CI/CD pipelines.
 
 ---
 
-### 📊 METRICS & DIAGNOSTICS
+## 🛠️ Core Technical Pillars
 
-```bash
-$ dewan --show-skills
-```
-
-- **Core Languages & Runtimes:**
-  - `JavaScript / Node.js` [██████████████████░] 90% // Async Promises, V8 profiling
-  - `TypeScript` [██████████████████░] 90% // Generics, strict configs, utility types
-  - `PHP` [████████████████░░] 80% // Composer pipelines, OPcache, Laravel/custom
-- **Databases & Query Optimizations:**
-  - `MySQL` [████████████████░░] 80% // Execution plans, B-Tree indexes, transactions
-  - `PostgreSQL` [████████████████░░] 80% // JSONB document queries, CTEs, connection pooling
-  - `MongoDB` [████████████████░░] 80% // Sharding, aggregation pipelines, document schema
-- **Client & Web Architectures:**
-  - `Vue.js 3` [██████████████████░] 90% // Composition API, Pinia state, virtual DOM
-  - `Nuxt.js 3` [██████████████████░] 90% // SSR, Nitro server engine, payload optimization
-  - `React.js` [████████████░░░░░░] 60% // Functional components, React hooks
+| Architectural Layer         | Core Technologies                                     | Engineering Focus                                                                                              |
+| :-------------------------- | :---------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
+| **Presentation & UI**       | `Nuxt 4` • `Vue 3` • `TypeScript` • `Tailwind CSS v4` | Server-Side Rendering (SSR), universal hydration, WCAG AA accessibility, zero-layout-shift (CLS) optimization. |
+| **APIs & Realtime**         | `Node.js` • `Express` • `Socket.IO` • `REST`          | Event-driven pub/sub communication, high-concurrency request routing, JWT & cryptographic session auth.        |
+| **Storage & Persistence**   | `PostgreSQL` • `MySQL` • `MongoDB`                    | Schema migration pipelines, composite B-Tree indexes, EXPLAIN ANALYZE tuning, ACID transaction guarantees.     |
+| **DevOps & Infrastructure** | `Docker` • `Linux (Debian/Ubuntu)` • `GitHub Actions` | Multi-stage image minimization, reproducible container orchestration, edge distribution, telemetry collection. |
 
 ---
 
-### 📡 FEATURED_SYNC_NODES (Featured Projects)
+## 🚀 Featured Deployments & Open-Source Systems
 
-#### 🚆 [traininfo](https://github.com/abdullahdewan/traininfo)
+### 🚆 [TrainInfo Live](https://github.com/abdullahdewan/traininfo)
 
-> **Nuxt 3 / Vue 3 / Tailwind v4 / Pinia / Shadcn Vue**
->
-> A specialized Bangladesh Railway Timetable and tracking platform with live schedule telemetry, local Dhaka timezone integration, and cached SSR routes.
+> **Stack:** `Nuxt 3` • `Vue 3` • `Tailwind CSS` • `Pinia`
 
-#### 🎮 [tictactoe](https://github.com/abdullahdewan/tictactoe)
+- Real-time Bangladesh Railway schedule tracking and transit telemetry platform.
+- Provides low-latency train timetables, live station lookups, and timezone-aware schedule calculations with cached SSR delivery.
 
-> **Vue 3 / TypeScript / Node.js / Express / Socket.IO / MongoDB / Docker**
->
-> A real-time multiplayer Tic-Tac-Toe server and client stack featuring room lobbies, automated win/draw state evaluation, and full containerized Docker deployments.
+### 🎮 [TicTacToe Realtime](https://github.com/abdullahdewan/tictactoe)
 
-#### 📝 [renpy-to-md](https://github.com/abdullahdewan/renpy-to-md)
+> **Stack:** `Node.js` • `Socket.IO` • `Express` • `MongoDB` • `Docker`
 
-> **Python 3 / Regex AST Parser / Markdown**
->
-> A production-ready Python command-line utility to parse complex Ren'Py visual novel scripts (`.rpy` files) and compile branching choices/dialogues into clean Markdown format.
+- Multiplayer game server featuring instant room matchmaking and real-time state synchronization over persistent WebSockets.
+- Packaged as multi-stage containerized microservices ready for distributed cloud execution.
 
----
+### 📝 [Ren'Py to Markdown Parser](https://github.com/abdullahdewan/renpy-to-md)
 
-### 📄 RESUME // CURRICULUM VITAE
+> **Stack:** `Python 3` • `Regex AST Engine` • `CLI Tooling`
 
-View and print the Neubrutalist interactive CV route at [`/resume`](https://abdullahdewan.com/resume):
-
-- 🖨️ Includes print-friendly PDF export styling with zero shadow artifacts.
-- ⚡ High-contrast layout with skill matrices, work history, and repository telemetry.
+- High-speed command-line compiler transforming visual novel script files (`.rpy`) into clean, structured Markdown documentation.
+- Handles nested branch hierarchies, dialogue conditions, and scene flags with deterministic parsing speed.
 
 ---
 
-### 📦 CURRENT TELEMETRY (GitHub Stats)
+## 📊 Telemetry & Repository Metrics
 
-<p align="left">
-  <a href="https://github.com/abdullahdewan" target="_blank">
-    <img src="https://github-readme-streak-stats.herokuapp.com/?user=abdullahdewan&theme=dark&background=0f172a&border=000000&stroke=facc15&ring=00dc82&fire=00dc82&currStreakNum=ffffff" height="160" alt="GitHub Streak Stats" />
-  </a>
-  <a href="https://github.com/abdullahdewan" target="_blank">
-    <img src="https://img.shields.io/github/followers/abdullahdewan?style=for-the-badge&logo=github&color=00DC82&labelColor=0f172a" height="45" alt="GitHub Followers" />
-  </a>
-</p>
+<div align="center">
+
+<a href="https://github.com/abdullahdewan" target="_blank">
+  <img src="https://github-readme-stats.vercel.app/api?username=abdullahdewan&show_icons=true&theme=tokyonight&hide_border=true&bg_color=141414&title_color=ffffff&text_color=9f9f9f&icon_color=5237F9" alt="Abdullah Dewan GitHub Stats" />
+</a>
+<a href="https://github.com/abdullahdewan" target="_blank">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=abdullahdewan&layout=compact&theme=tokyonight&hide_border=true&bg_color=141414&title_color=ffffff&text_color=9f9f9f" alt="Most Used Languages" />
+</a>
+
+<br />
+
+<a href="https://github.com/abdullahdewan" target="_blank">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=abdullahdewan&theme=dark&background=141414&border=5237F9&stroke=5237F9&ring=5237F9&fire=5237F9&currStreakNum=ffffff" height="150" alt="GitHub Streak Stats" />
+</a>
+
+</div>
 
 ---
 
-### 📡 INITIATE TRANSMISSION
+## 🛡️ Engineering Quality & Verification Standards
 
-If you want to collaborate on software projects, optimize database pipelines, or hire for engineering contracts:
+- **WCAG AA Compliance:** 100/100 Accessibility audit score verified with automated scanners.
+- **Type-Strict Contracts:** Full strict-mode TypeScript type checking across client state and API payloads (`nuxt typecheck`).
+- **Comprehensive Test Suite:** End-to-end and unit test suites running on Vitest (`vitest run`).
+- **Zero-Bloat Bundle:** Optimized tree-shaking, lightweight SVG brand components, and clean CSS variables with zero vendor framework lock-in.
 
-- 🌐 **Live Portfolio:** [abdullahdewan.com](https://abdullahdewan.com)
-- 📧 **Direct Email:** `hello@abdullahdewan.com`
-- 📄 **Printable CV:** [abdullahdewan.com/resume](https://abdullahdewan.com/resume)
+---
+
+## 📡 Initiate Transmission
+
+I am open to full-time senior engineering opportunities, technical leadership roles, and architectural consultations.
+
+- 🌐 **Portfolio Website:** [abdullahdewan.com](https://abdullahdewan.com)
+- ✉️ **Direct Email:** [dewanmohammadabdullah@gmail.com](mailto:dewanmohammadabdullah@gmail.com)
+- 💼 **LinkedIn:** [/in/abdullahdewan](https://linkedin.com/in/abdullahdewan)
+- 𝕏 **X:** [@xabdullahdewan](https://x.com/xabdullahdewan)
+- 📍 **Location:** Dhaka, Bangladesh (Operating Globally via Remote)
+
+<div align="center">
+  <sub>© 2026 Abdullah Dewan. Engineered with Vue 3, Nuxt 4, and Tailwind CSS v4.</sub>
+</div>

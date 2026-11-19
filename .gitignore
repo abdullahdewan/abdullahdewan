@@ -30,3 +30,10 @@ logs
 # Reports
 coverage
 reports
+
+
+/.zed
+/.agents
+/.claude
+/.codex
+/.impeccable/critique

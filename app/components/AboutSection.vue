@@ -1,168 +1,151 @@
 <script setup lang="ts">
-import { Server, Layers, Database, ShieldCheck, Cpu, Workflow } from 'lucide-vue-next';
-
-interface Highlight {
-  metric: string;
-  label: string;
-}
-
-const highlights: Highlight[] = [
-  { metric: '5+', label: 'Years Experience' },
-  { metric: '20+', label: 'Production Projects' },
-  { metric: '99.9%', label: 'Uptime & Quality' },
-];
+import {
+  Layers,
+  Workflow,
+  Database,
+  Server,
+  Zap,
+  ShieldCheck,
+  ArrowRight,
+  ExternalLink,
+} from '@lucide/vue';
 
 const architectureLayers = [
   {
-    layer: 'Presentation & UI',
-    tech: 'Nuxt 4 / Vue 3 / Tailwind',
-    status: 'OPTIMAL',
-    statusColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+    layer: 'Presentation Layer',
+    tech: 'Nuxt 4 / Vue 3 / Tailwind CSS v4',
+    badge: 'OPTIMAL SSR',
     icon: Layers,
   },
   {
-    layer: 'API & Orchestration',
+    layer: 'API & Orchestration Layer',
     tech: 'Node.js / Express / Socket.IO',
-    status: 'HIGH-THROUGHPUT',
-    statusColor: 'text-orange-400 bg-orange-500/10 border-orange-500/20',
+    badge: 'HIGH-THROUGHPUT',
     icon: Workflow,
   },
   {
-    layer: 'Storage & Persistence',
+    layer: 'Storage & Persistence Layer',
     tech: 'PostgreSQL / MySQL / MongoDB',
-    status: 'INDEXED',
-    statusColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+    badge: 'INDEX-OPTIMIZED',
     icon: Database,
   },
   {
-    layer: 'Deployment & Runtime',
-    tech: 'Docker / Linux AMD64 / CI/CD',
-    status: 'CONTAINERIZED',
-    statusColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+    layer: 'Deployment & Runtime Layer',
+    tech: 'Docker Containers / Linux AMD64',
+    badge: 'CONTAINERIZED',
     icon: Server,
   },
 ];
 </script>
 
 <template>
-  <div class="relative space-y-12">
-    <!-- Top isometric cube decoration -->
-    <div
-      class="isometric-cube isometric-cube-sm -top-6 -right-2 md:right-8 opacity-80 hidden sm:block"
-    ></div>
-
+  <div class="space-y-12">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-      <!-- Left Column: Modern Systems Architecture & Blueprint Spec Block -->
-      <div class="lg:col-span-5 flex justify-center items-center w-full">
-        <div class="relative w-full max-w-md group">
-          <!-- Ambient warm backlight -->
-          <div
-            class="absolute -inset-2 bg-gradient-to-r from-orange-500/15 via-amber-500/10 to-transparent rounded-2xl blur-xl group-hover:from-orange-500/25 transition-all duration-500"
-          ></div>
-
-          <!-- Architecture & Infrastructure Blueprint Card -->
-          <div
-            class="relative rounded-2xl overflow-hidden border border-white/10 bg-[#161618] p-5 sm:p-6 shadow-2xl space-y-5"
-          >
-            <!-- Card Title / Terminal Bar -->
-            <div class="flex items-center justify-between pb-3 border-b border-white/5">
-              <div class="flex items-center gap-2">
-                <div class="w-2.5 h-2.5 rounded-full bg-red-500/70"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-green-500/70"></div>
-              </div>
-              <span class="text-[11px] font-mono text-zinc-400 flex items-center gap-1.5">
-                <Cpu class="size-3 text-primary" />
-                <span>stack-architecture.spec</span>
-              </span>
-            </div>
-
-            <!-- Architecture Stack Layers Pipeline -->
-            <div class="space-y-2.5">
+      <!-- Left Column (Experience Highlight & Architecture Spec Block) -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="card-spotlight p-6 sm:p-10 flex flex-col justify-between">
+          <div class="flex items-center justify-between pb-6 border-b border-white/5">
+            <div>
               <div
-                v-for="item in architectureLayers"
-                :key="item.layer"
-                class="flex items-center justify-between p-3 rounded-xl bg-black/25 border border-white/5 hover:border-orange-500/30 transition-all duration-200 group/layer"
+                class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white font-mono flex items-baseline gap-1"
               >
-                <div class="flex items-center gap-3">
-                  <div
-                    class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300 group-hover/layer:text-primary transition-colors"
-                  >
-                    <component :is="item.icon" class="size-4" />
-                  </div>
-                  <div>
-                    <div class="text-xs font-bold text-white tracking-wide">
-                      {{ item.layer }}
-                    </div>
-                    <div class="text-[11px] text-zinc-400 font-mono mt-0.5">
-                      {{ item.tech }}
-                    </div>
-                  </div>
-                </div>
-
-                <span
-                  :class="[
-                    'text-[9px] font-mono font-semibold px-2 py-0.5 rounded-full border shrink-0',
-                    item.statusColor,
-                  ]"
-                >
-                  {{ item.status }}
-                </span>
+                <span>3+</span>
               </div>
+              <p class="text-zinc-400 text-base font-medium mt-1">
+                Years of Commercial Software Engineering
+              </p>
             </div>
-
-            <!-- Bottom System Telemetry / Specs -->
             <div
-              class="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-zinc-400"
+              class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white shrink-0"
             >
-              <div class="flex items-center gap-1.5 text-zinc-300">
-                <ShieldCheck class="size-3.5 text-emerald-400" />
-                <span>PRODUCTION HARDENED</span>
+              <Zap class="size-7 sm:size-8" />
+            </div>
+          </div>
+
+          <!-- Architecture Layers Breakdown -->
+          <div class="pt-6 space-y-3">
+            <div
+              v-for="layer in architectureLayers"
+              :key="layer.layer"
+              class="p-3.5 sm:p-4 rounded-xl bg-white/5 border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:border-white/20 transition-colors"
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <component :is="layer.icon" class="size-5 text-white shrink-0" />
+                <div class="min-w-0">
+                  <div class="text-sm font-bold text-white">{{ layer.layer }}</div>
+                  <div class="text-xs font-mono text-zinc-400">{{ layer.tech }}</div>
+                </div>
               </div>
-              <span class="text-primary font-bold">100% MODULAR</span>
+              <span
+                class="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-white/5 text-zinc-300 border border-white/10 self-start sm:self-auto shrink-0"
+              >
+                {{ layer.badge }}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Copy / Bio Column -->
-      <div class="lg:col-span-7 space-y-6">
-        <div>
-          <span
-            class="text-xs uppercase tracking-widest text-zinc-400 font-medium inline-flex items-center gap-2 mb-3"
-          >
-            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-            About me
-          </span>
+      <!-- Right Column: Heading & Detailed Bio -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="space-y-4">
           <h2
-            class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight"
+            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight"
           >
-            I will <span class="text-primary">Design & Develop</span> the best websites and scalable
-            systems
+            Engineering High-Throughput <br class="hidden sm:block" />
+            Full-Stack Systems
           </h2>
+          <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
+            I am a Full-Stack Software Engineer & Backend Systems Architect based in Dhaka,
+            Bangladesh. With over 3 years of commercial production experience, I build resilient
+            systems where fast client interaction meets dependable, low-latency backend execution.
+          </p>
         </div>
 
-        <p class="text-zinc-400 text-sm sm:text-base leading-relaxed font-normal">
-          I am a Full-Stack Software Engineer and Backend Systems Architect with deep expertise in
-          Vue, Nuxt, TypeScript, and modern scalable server pipelines. I specialize in turning
-          complex business requirements into high-performance, polished digital experiences that
-          scale seamlessly.
-        </p>
-
-        <p class="text-zinc-400 text-sm sm:text-base leading-relaxed font-normal">
-          From resilient distributed databases (Postgres, MySQL, MongoDB) to reactive web interfaces
-          and microservices, my focus is delivering bulletproof engineering coupled with thoughtful
-          UX design.
-        </p>
-
-        <!-- Highlights Row -->
-        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-white/5">
-          <div v-for="item in highlights" :key="item.label" class="space-y-1">
-            <div class="text-xl sm:text-2xl font-extrabold text-white font-sans">
-              {{ item.metric }}
+        <!-- 2 Mini Feature Cards with In-Flow Icons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="card-spotlight p-6 space-y-3">
+            <div class="flex items-center gap-3">
+              <Zap class="size-5 text-white shrink-0" />
+              <h3 class="text-xl font-bold text-white">Edge Performance</h3>
             </div>
-            <div class="text-xs text-zinc-400 font-medium">{{ item.label }}</div>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Sub-20ms edge response times, 100/100 Lighthouse benchmark compliance, and lean
+              runtime bundles.
+            </p>
           </div>
+
+          <div class="card-spotlight p-6 space-y-3">
+            <div class="flex items-center gap-3">
+              <ShieldCheck class="size-5 text-white shrink-0" />
+              <h3 class="text-xl font-bold text-white">Type-Strict Architecture</h3>
+            </div>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Comprehensive typed contracts across Vue 3, TypeScript strict mode, and defensive API
+              validation.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <a
+            href="https://github.com/abdullahdewan"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary w-full sm:w-auto justify-center"
+          >
+            <span>GitHub Profile</span>
+            <ExternalLink class="size-4" />
+          </a>
+          <a
+            href="https://linkedin.com/in/abdullahdewan"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-outline w-full sm:w-auto justify-center"
+          >
+            <span>LinkedIn Profile</span>
+            <ArrowRight class="size-4" />
+          </a>
         </div>
       </div>
     </div>

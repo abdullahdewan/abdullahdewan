@@ -27,7 +27,6 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true },
     '/api/**': { cors: true },
-    '/resume': { prerender: true },
     '/sitemap.xml': { prerender: true },
   },
 
@@ -44,9 +43,24 @@ export default defineNuxtConfig({
       },
     },
     routeRules: {
+      '/fonts/**': {
+        headers: {
+          'cache-control': 'public, max-age=31536000, immutable',
+        },
+      },
+      '/assets/**': {
+        headers: {
+          'cache-control': 'public, max-age=31536000, immutable',
+        },
+      },
+      '/tech/**': {
+        headers: {
+          'cache-control': 'public, max-age=31536000, immutable',
+        },
+      },
       '/**': {
         headers: {
-          'cache-control': 's-maxage=3600, stale-while-revalidate=86400',
+          'cache-control': 'public, max-age=3600, stale-while-revalidate=86400',
           'x-content-type-options': 'nosniff',
           'x-frame-options': 'DENY',
           'referrer-policy': 'strict-origin-when-cross-origin',
@@ -68,14 +82,7 @@ export default defineNuxtConfig({
         output: {
           manualChunks(id: string) {
             if (id.includes('node_modules/vue/')) return 'vue';
-            if (id.includes('lucide-vue-next')) return 'icons';
-            if (
-              id.includes('reka-ui') ||
-              id.includes('class-variance-authority') ||
-              id.includes('tailwind-merge') ||
-              id.includes('clsx')
-            )
-              return 'ui';
+            if (id.includes('@lucide/vue')) return 'icons';
           },
         },
       },

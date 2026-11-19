@@ -40,4 +40,3 @@ Full-Stack Engineer and Backend Systems Architect portfolio. Demonstrates produc
 
 ## Navigation Links
 - [Portfolio Homepage](https://abdullahdewan.com)
-- [Resume Readout](https://abdullahdewan.com/resume)

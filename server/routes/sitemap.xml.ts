@@ -11,12 +11,6 @@ export default defineEventHandler((event) => {
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://abdullahdewan.com/resume</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
 </urlset>`.trim();
 
   return sitemap;
